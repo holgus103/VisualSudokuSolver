@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">Visual Sudoku Solver</string>
     <string name="autosave_title">Save recognized puzzles automatically</string>
+    <string name="preference_title">Recognition</string>
 </resources>
