@@ -13,11 +13,13 @@
 
 #include <stdio.h>
 #include <opencv2/core/hal/interface.h>
+#include <opencv2/ml.hpp>
 
 #include "DigitResognizer.h"
 
+using namespace cv;
+
 DigitRecognizer::DigitRecognizer() {
-    this->knn = cv::ml::KNearest::create();
 }
 
 DigitRecognizer::DigitRecognizer(const DigitRecognizer& orig) {
@@ -36,16 +38,23 @@ int DigitRecognizer::flipInt(int v){
     return res;    
 }
 
-cv::Mat DigitRecognizer::classify(cv::Mat i){
-    auto sample = cv::Mat(i.size(), CV_32FC1);
-    auto response = cv::Mat(1, 1, CV_32FC1);
-    i.convertTo(sample, CV_32FC1);
-    this->knn->findNearest(sample, 2, response);
-    return response;
-}
+//cv::Mat DigitRecognizer::classify(cv::Mat i){
+//    auto response = cv::Mat(1, 1, CV_32FC1);
+//    try{
+//        auto sample = cv::Mat(i.size(), CV_32FC1);
+//        i.convertTo(sample, CV_32FC1);
+//        auto input = sample.reshape(0, 1);
+//        knn->findNearest(input, 2, response);
+//    }
+//    catch(cv::Exception ex){
+//        std::cout << ex.what();
+//    }
+//        return response;
+//}
 
 void DigitRecognizer::train(char* data, char* labels){
     
+    Ptr<cv::ml::KNearest> k = cv::ml::KNearest::create();
     FILE *fData = fopen(data, "rb");
     FILE *fLabels = fopen(labels, "rb");
     
@@ -76,11 +85,11 @@ void DigitRecognizer::train(char* data, char* labels){
         return;
     }
     
-    CvMat *trainingVectors = cvCreateMat(count, size, CV_32FC1);
+    
+    Mat_<float> trainingVectors = Mat_<float>(count, size);
 
-    CvMat *trainingClasses = cvCreateMat(count, 1, CV_32FC1);
-//    char* trainingVectors = new char[size*count*sizeof(char)];
-//    char* trainingClasses = new char[count*sizeof(char)];
+    Mat_<int> trainingClasses = Mat_<int>(1, count);
+
 
     char* tmp = new char[size];
     char cls=0; 
@@ -89,17 +98,30 @@ void DigitRecognizer::train(char* data, char* labels){
         fread(tmp, size, 1, fData);
         fread(&cls, sizeof(char), 1, fLabels);
         
-        trainingClasses->data.fl[i] = cls;
+        trainingClasses.at<int>(0, i) = (int)cls;
         
         for(int j = 0; j < size; j++){
-            trainingVectors->data.fl[size*i + j] = tmp[j];
+            trainingVectors.at<float>(i, j) = (float)tmp[j];
         }
     }
-    this->knn->train(cv::cvarrToMat(trainingVectors), 0, cv::cvarrToMat(trainingClasses));
-    
+
+    k->train(trainingVectors, ml::ROW_SAMPLE, trainingClasses);
+    knn = k;
+// testing code
+//    Mat res;
+//    Mat_<float> sample = Mat_<float>(1, size);
+//
+//    for(int i = 0; i<size; i++){
+//        sample.at<float>(0, i) = trainingVectors.at<float>(0, i);
+//    }
+//    try{
+//        k->findNearest(sample, 10, res);
+//    }
+//    catch(cv::Exception ex){
+//        std::cout << ex.what();
+//    }
     fclose(fData);
-    fclose(fLabels);
-    
+    fclose(fLabels);  
     
     
     

@@ -95,13 +95,14 @@ int main(int argc, char** argv) {
 //        circle(image, curve[i], 5, Scalar(255));
 //    }
    
-    auto persp = Mat(Size(270, 270), CV_8UC1);
-    Point2f dstPoints[] = {Point2f(0,0), Point2f(0, 359), Point2f(359, 0), Point2f(359, 359)};
+    auto persp = Mat(Size(252, 252), CV_8UC1);
+    Point2f dstPoints[] = {Point2f(0,0), Point2f(0, 251), Point2f(251, 0), Point2f(251, 251)};
     sortPoints(curve);
     Point2f srcPoints[] = {curve[0], curve[1], curve[2], curve[3]};
-    warpPerspective(image, persp, getPerspectiveTransform(srcPoints, dstPoints), Size(360, 360));
+    warpPerspective(image, persp, getPerspectiveTransform(srcPoints, dstPoints), Size(251, 251));
     show(persp);
-    Mat d = persp(Rect(0, 40, 40, 40));
+    Mat d = persp(Rect(0, 28, 28, 28));
+//    r->classify(d);
     show(d);
     return 0;
 }
