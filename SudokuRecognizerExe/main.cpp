@@ -102,7 +102,7 @@ int main(int argc, char** argv) {
     warpPerspective(image, persp, getPerspectiveTransform(srcPoints, dstPoints), Size(251, 251));
     show(persp);
     Mat d = persp(Rect(0, 28, 28, 28));
-//    r->classify(d);
+    r->classify(d);
     show(d);
     return 0;
 }

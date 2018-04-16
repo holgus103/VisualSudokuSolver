@@ -38,19 +38,26 @@ int DigitRecognizer::flipInt(int v){
     return res;    
 }
 
-//cv::Mat DigitRecognizer::classify(cv::Mat i){
-//    auto response = cv::Mat(1, 1, CV_32FC1);
-//    try{
-//        auto sample = cv::Mat(i.size(), CV_32FC1);
-//        i.convertTo(sample, CV_32FC1);
-//        auto input = sample.reshape(0, 1);
-//        knn->findNearest(input, 2, response);
-//    }
-//    catch(cv::Exception ex){
-//        std::cout << ex.what();
-//    }
-//        return response;
-//}
+cv::Mat DigitRecognizer::classify(cv::Mat input){
+    Mat response;
+    try{
+        auto width = input.size().width;
+        auto height = input.size().height;
+        auto sample = cv::Mat_<float>(1, height * width);
+        
+        for(int i = 0; i < height; i++){
+            for(int j = 0; j < width; j++){
+                sample.at<float>(0, height*j + width) = input.at<float>(i, j);
+            }
+        }
+        
+        knn->findNearest(sample, 2, response);
+    }
+    catch(cv::Exception ex){
+        std::cout << ex.what();
+    }
+        return response;
+}
 
 void DigitRecognizer::train(char* data, char* labels){
     
