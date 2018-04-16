@@ -18,6 +18,7 @@
 #include <opencv2/core/core.hpp>
 #include <ml.h>
 #include <vector>
+#include "globals.h"
 
 class DigitRecognizer {
 public:
@@ -26,7 +27,7 @@ public:
     DigitRecognizer(const DigitRecognizer& orig);
     virtual ~DigitRecognizer();
     void train(char*, char*);
-    cv::Mat classify(cv::Mat);
+    int classify(cv::Mat);
     void serialize();
 private:
     cv::Ptr<cv::ml::KNearest> knn;

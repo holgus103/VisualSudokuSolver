@@ -14,7 +14,6 @@
 #include <stdio.h>
 #include <opencv2/core/hal/interface.h>
 #include <opencv2/ml.hpp>
-
 #include "DigitResognizer.h"
 
 using namespace cv;
@@ -38,7 +37,7 @@ int DigitRecognizer::flipInt(int v){
     return res;    
 }
 
-cv::Mat DigitRecognizer::classify(cv::Mat input){
+int DigitRecognizer::classify(cv::Mat input){
     Mat response;
     try{
         auto width = input.size().width;
@@ -51,12 +50,13 @@ cv::Mat DigitRecognizer::classify(cv::Mat input){
             }
         }
         
-        knn->findNearest(sample, 2, response);
+        knn->findNearest(sample, NEIGHBOURS_COUNT, response);
     }
     catch(cv::Exception ex){
         std::cout << ex.what();
     }
-        return response;
+    
+    return response.at<int>(0,0);
 }
 
 void DigitRecognizer::train(char* data, char* labels){
@@ -88,7 +88,7 @@ void DigitRecognizer::train(char* data, char* labels){
     
            
     
-    if(msb != 2049 || count != labelCount || magic != 2051){
+    if(msb != MSB || count != labelCount || magic != MAGIC_NUMBER){
         return;
     }
     
@@ -105,6 +105,12 @@ void DigitRecognizer::train(char* data, char* labels){
         fread(tmp, size, 1, fData);
         fread(&cls, sizeof(char), 1, fLabels);
         
+#ifdef DEBUG
+        if(i == 0){
+            std::cout << cls;
+        }
+#endif
+        
         trainingClasses.at<int>(0, i) = (int)cls;
         
         for(int j = 0; j < size; j++){
@@ -114,19 +120,22 @@ void DigitRecognizer::train(char* data, char* labels){
 
     k->train(trainingVectors, ml::ROW_SAMPLE, trainingClasses);
     knn = k;
-// testing code
-//    Mat res;
-//    Mat_<float> sample = Mat_<float>(1, size);
-//
-//    for(int i = 0; i<size; i++){
-//        sample.at<float>(0, i) = trainingVectors.at<float>(0, i);
-//    }
-//    try{
-//        k->findNearest(sample, 10, res);
-//    }
-//    catch(cv::Exception ex){
-//        std::cout << ex.what();
-//    }
+    
+#ifdef WORKING_SAMPLE
+    Mat res;
+    Mat_<float> sample = Mat_<float>(1, size);
+
+    for(int i = 0; i<size; i++){
+        sample.at<float>(0, i) = trainingVectors.at<float>(0, i);
+    }
+    try{
+        k->findNearest(sample, 10, res);
+    }
+    catch(cv::Exception ex){
+        std::cout << ex.what();
+    }
+#endif
+    
     fclose(fData);
     fclose(fLabels);  
     

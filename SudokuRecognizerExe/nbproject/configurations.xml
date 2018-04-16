@@ -5,6 +5,7 @@
                    displayName="Header Files"
                    projectFiles="true">
       <itemPath>DigitResognizer.h</itemPath>
+      <itemPath>globals.h</itemPath>
     </logicalFolder>
     <logicalFolder name="ResourceFiles"
                    displayName="Resource Files"
@@ -48,6 +49,8 @@
       </item>
       <item path="DigitResognizer.h" ex="false" tool="3" flavor2="0">
       </item>
+      <item path="globals.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="main.cpp" ex="false" tool="1" flavor2="0">
       </item>
     </conf>
@@ -74,6 +77,8 @@
       <item path="DigitRecognizer.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="DigitResognizer.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="globals.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="main.cpp" ex="false" tool="1" flavor2="0">
       </item>

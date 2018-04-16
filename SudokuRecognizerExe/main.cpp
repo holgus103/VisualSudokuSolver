@@ -14,7 +14,7 @@
 #include <features2d.hpp>
 #include <vector>
 #include <algorithm>
-
+#include "globals.h"
 #include "DigitResognizer.h"
 
 
@@ -62,6 +62,8 @@ bool areaCompare(std::vector<Point> a, std::vector<Point> b) {
 }
 
 int main(int argc, char** argv) {
+    
+    int result[SUDOKU_SIZE][SUDOKU_SIZE];
     auto r = new DigitRecognizer();
     r->train("train-images-idx3-ubyte", "train-labels-idx1-ubyte");
     // load image 
@@ -91,19 +93,42 @@ int main(int argc, char** argv) {
     c.push_back(curve);
     drawContours(box, c, 0, Scalar(255), CV_FILLED);
     
-//    for(int i = 0; i < curve.size(); i++){
-//        circle(image, curve[i], 5, Scalar(255));
-//    }
-   
-    auto persp = Mat(Size(252, 252), CV_8UC1);
-    Point2f dstPoints[] = {Point2f(0,0), Point2f(0, 251), Point2f(251, 0), Point2f(251, 251)};
+#ifdef DRAW_CORNERS
+    for(int i = 0; i < curve.size(); i++){
+        circle(image, curve[i], 5, Scalar(255));
+    }
+#endif
+    
+    auto persp = Mat(Size(TARGET_SQUARE_SIZE*SUDOKU_SIZE, TARGET_SQUARE_SIZE*SUDOKU_SIZE), CV_8UC1);
+    Point2f dstPoints[] = {
+        Point2f(0,0),
+        Point2f(0, TARGET_SQUARE_SIZE*SUDOKU_SIZE-1),
+        Point2f(TARGET_SQUARE_SIZE*SUDOKU_SIZE-1, 0),
+        Point2f(TARGET_SQUARE_SIZE*SUDOKU_SIZE-1, TARGET_SQUARE_SIZE*SUDOKU_SIZE-1)
+    };
+    
     sortPoints(curve);
     Point2f srcPoints[] = {curve[0], curve[1], curve[2], curve[3]};
-    warpPerspective(image, persp, getPerspectiveTransform(srcPoints, dstPoints), Size(251, 251));
+    warpPerspective(image, persp, getPerspectiveTransform(srcPoints, dstPoints), Size(TARGET_SQUARE_SIZE*SUDOKU_SIZE-1, TARGET_SQUARE_SIZE*SUDOKU_SIZE-1));
+    
+#ifdef DISPLAY_PROGRESS
     show(persp);
-    Mat d = persp(Rect(0, 28, 28, 28));
-    r->classify(d);
-    show(d);
+#endif
+    
+    for(auto i = 0; i < SUDOKU_SIZE; i++){
+        for(auto j = 0; j < SUDOKU_SIZE; j++){
+            
+#ifdef DISPLAY_PROGRESS
+            show(persp(Rect(j*TARGET_SQUARE_SIZE, i*TARGET_SQUARE_SIZE, TARGET_SQUARE_SIZE, TARGET_SQUARE_SIZE)));
+#endif
+            result[i][j] = r->classify(persp(Rect(j*TARGET_SQUARE_SIZE, i*TARGET_SQUARE_SIZE, TARGET_SQUARE_SIZE, TARGET_SQUARE_SIZE)));
+            
+        }
+    }
+    
+    
+
+    
     return 0;
 }
 
