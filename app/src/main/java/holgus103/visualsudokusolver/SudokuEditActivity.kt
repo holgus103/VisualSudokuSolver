@@ -12,6 +12,11 @@ class SudokuEditActivity : AppCompatActivity() {
         setContentView(R.layout.activity_sudoku_edit)
     }
 
+    fun solveManually(v: View){
+        val i = Intent(this, SolveByHand::class.java);
+        startActivity(i);
+    }
+
     fun solve(v: View){
         val i = Intent(this, SolvedActivity::class.java)
         this.startActivity(i);

@@ -10,413 +10,44 @@
         android:layout_gravity="center"
         android:orientation="vertical"
         android:layout_height="match_parent">
-    <TableLayout
-        android:layout_gravity="center_horizontal"
-        android:layout_width="300dp"
-        android:layout_height="300dp"
-        android:layout_marginTop="40dp"
-        android:layout_marginBottom="40dp"
-        android:background="@color/tableBackground">
 
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+        <include layout="@layout/sudoku"/>
 
-            android:layout_weight="1">
-
-            <EditText
-
-                style="@style/SudokuCell"
-                android:text="5" />
-
-            <EditText
-                style="@style/SudokuCell"
-                android:text="" />
-
-            <EditText
-                style="@style/SudokuCell"
-                android:text="" />
-
-            <EditText
-                style="@style/SudokuCell"
-                android:text="6" />
-
-            <EditText
-                style="@style/SudokuCell"
-                android:text="" />
-
-            <EditText
-                style="@style/SudokuCell"
-                android:text="" />
-
-            <EditText
-                style="@style/SudokuCell"
-                android:text="9" />
-
-            <EditText
-                style="@style/SudokuCell"
-                android:text="" />
-
-            <EditText
-                style="@style/SudokuCell"
-                android:text="" />
-
-        </TableRow>
-
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1">
-
-            <EditText
-                style="@style/SudokuCell"
-                android:text="6" />
-
-            <EditText
-                style="@style/SudokuCell"
-                android:text="7" />
-
-            <EditText
-                style="@style/SudokuCell"
-                android:text="" />
-
-            <EditText
-                style="@style/SudokuCell"
-                android:text="" />
-
-            <EditText
-                style="@style/SudokuCell"
-                android:text="9" />
-
-            <EditText
-                style="@style/SudokuCell"
-                android:text="5" />
-
-            <EditText
-                style="@style/SudokuCell"
-                android:text="" />
-
-            <EditText
-                style="@style/SudokuCell"
-                android:text="" />
-
-            <EditText
-                style="@style/SudokuCell"
-                android:text="8" />
-
-        </TableRow>
-
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1">
-
-            <EditText
-                style="@style/SudokuCell"
-                android:text="1" />
-
-            <EditText
-                style="@style/SudokuCell"
-                android:text="" />
-
-            <EditText
-                style="@style/SudokuCell"
-                android:text="8" />
-
-            <EditText
-                style="@style/SudokuCell"
-                android:text="" />
-
-            <EditText
-                style="@style/SudokuCell"
-                android:text="" />
-
-            <EditText
-                style="@style/SudokuCell"
-                android:text="" />
-
-            <EditText
-                style="@style/SudokuCell"
-                android:text="" />
-
-            <EditText
-                style="@style/SudokuCell"
-                android:text="" />
-
-            <EditText
-                style="@style/SudokuCell"
-                android:text="7" />
-
-        </TableRow>
-
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1">
-
-            <EditText
-                style="@style/SudokuCell"
-                android:text="8" />
-
-            <EditText
-                style="@style/SudokuCell"
-                android:text="" />
-
-            <EditText
-                style="@style/SudokuCell"
-                android:text="" />
-
-            <EditText
-                style="@style/SudokuCell"
-                android:text="7" />
-
-            <EditText
-                style="@style/SudokuCell"
-                android:text="" />
-
-            <EditText
-                style="@style/SudokuCell"
-                android:text="1" />
-
-            <EditText
-                style="@style/SudokuCell"
-                android:text="" />
-
-            <EditText
-                style="@style/SudokuCell"
-                android:text="2" />
-
-            <EditText
-                style="@style/SudokuCell"
-                android:text="" />
-
-        </TableRow>
-
-        <TableRow
-            android:layout_weight="1"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_weight="1"
+                android:onClick="solveManually"
+                android:layout_height="wrap_content"></LinearLayout>
+            <ImageButton
+                android:onClick="solve"
+                android:layout_weight="1"
+                android:layout_gravity="center"
+                android:id="@+id/imageButtonApprove"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:srcCompat="@drawable/ic_check_white_24dp"
+            />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"></LinearLayout>
 
-            <EditText
-                style="@style/SudokuCell"
-                android:text="" />
-
-            <EditText
-                style="@style/SudokuCell"
-                android:text="2" />
-
-            <EditText
-                style="@style/SudokuCell"
-                android:text="6" />
-
-            <EditText
-                style="@style/SudokuCell"
-                android:text="" />
-
-            <EditText
-                style="@style/SudokuCell"
-                android:text="5" />
-
-            <EditText
-                style="@style/SudokuCell"
-                android:text="3" />
-
-            <EditText
-                style="@style/SudokuCell"
-                android:text="7" />
-
-            <EditText
-                style="@style/SudokuCell"
-                android:text="" />
-
-            <EditText
-                style="@style/SudokuCell"
-                android:text="" />
-
-        </TableRow>
-
-        <TableRow
-            android:layout_weight="1"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <EditText
-                style="@style/SudokuCell"
-                android:text="" />
-
-            <EditText
-                style="@style/SudokuCell"
-                android:text="" />
-
-            <EditText
-                style="@style/SudokuCell"
-                android:text="" />
-
-            <EditText
-                style="@style/SudokuCell"
-                android:text="" />
-
-            <EditText
-                style="@style/SudokuCell"
-                android:text="" />
-
-            <EditText
-                style="@style/SudokuCell"
-                android:text="" />
-
-            <EditText
-                style="@style/SudokuCell"
-                android:text="" />
-
-            <EditText
-                style="@style/SudokuCell"
-                android:text="" />
-
-            <EditText
-                style="@style/SudokuCell"
-                android:text="" />
-
-        </TableRow>
-
-        <TableRow
-            android:layout_weight="1"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <EditText
-                style="@style/SudokuCell"
-                android:text="9" />
-
-            <EditText
-                style="@style/SudokuCell"
-                android:text="" />
-
-            <EditText
-                style="@style/SudokuCell"
-                android:text="" />
-
-            <EditText
-                style="@style/SudokuCell"
-                android:text="" />
-
-            <EditText
-                style="@style/SudokuCell"
-                android:text="" />
-
-            <EditText
-                style="@style/SudokuCell"
-                android:text="" />
-
-            <EditText
-                style="@style/SudokuCell"
-                android:text="" />
-
-            <EditText
-                style="@style/SudokuCell"
-                android:text="" />
-
-            <EditText
-                style="@style/SudokuCell"
-                android:text="" />
-
-        </TableRow>
-
-        <TableRow
-            android:layout_weight="1"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <EditText
-                style="@style/SudokuCell"
-                android:text="2" />
-
-            <EditText
-                style="@style/SudokuCell"
-                android:text="" />
-
-            <EditText
-                style="@style/SudokuCell"
-                android:text="" />
-
-            <EditText
-                style="@style/SudokuCell"
-                android:text="4" />
-
-            <EditText
-                style="@style/SudokuCell"
-                android:text="" />
-
-            <EditText
-                style="@style/SudokuCell"
-                android:text="" />
-
-            <EditText
-                style="@style/SudokuCell"
-                android:text="" />
-
-            <EditText
-                style="@style/SudokuCell"
-                android:text="" />
-
-            <EditText
-                style="@style/SudokuCell"
-                android:text="5" />
-
-        </TableRow>
-
-        <TableRow
-            android:layout_weight="1"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <EditText
-                style="@style/SudokuCell"
-                android:text="" />
-
-            <EditText
-                style="@style/SudokuCell"
-                android:text="4" />
-
-            <EditText
-                style="@style/SudokuCell"
-                android:text="" />
-
-            <EditText
-                style="@style/SudokuCell"
-                android:text="2" />
-
-            <EditText
-                style="@style/SudokuCell"
-                android:text="" />
-
-            <EditText
-                style="@style/SudokuCell"
-                android:text="" />
-
-            <EditText
-                style="@style/SudokuCell"
-                android:text="" />
-
-            <EditText
-                style="@style/SudokuCell"
-                android:text="7" />
-
-            <EditText
-                style="@style/SudokuCell"
-                android:text="9" />
-
-        </TableRow>
-
-
-    </TableLayout>
-
-    <ImageButton
-        android:onClick="solve"
-        android:layout_gravity="center"
-        android:id="@+id/imageButtonShare"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:srcCompat="@drawable/ic_check_white_24dp"
- />
+            <ImageButton
+                android:layout_weight="1"
+                android:onClick="solveManually"
+                android:layout_gravity="center"
+                android:id="@+id/imageButtonSolve"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:srcCompat="@drawable/ic_create_white_24dp"
+                />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"></LinearLayout>
+        </LinearLayout>
     </LinearLayout>
 </android.support.design.widget.CoordinatorLayout>

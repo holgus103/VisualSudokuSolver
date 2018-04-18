@@ -32,7 +32,6 @@
             <ImageButton
                 android:layout_weight="1"
                 android:onClick="settings"
-                android:id="@+id/imageButton3"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:srcCompat="@drawable/ic_settings_black_24dp" />
@@ -47,7 +46,6 @@
             <ImageButton
                 android:layout_weight="1"
                 android:onClick="recognize"
-                android:id="@+id/imageButton4"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:srcCompat="@drawable/ic_photo_camera_black_24dp" />

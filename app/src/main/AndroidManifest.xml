@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="holgus103.visualsudokusolver">
-    <uses-feature android:name="android.hardware.camera"
+
+    <uses-feature
+        android:name="android.hardware.camera"
         android:required="true" />
 
     <application
@@ -20,7 +22,8 @@
         </activity>
         <activity android:name=".SudokuEditActivity" />
         <activity android:name=".SolvedActivity" />
-        <activity android:name=".SettingsActivity"></activity>
+        <activity android:name=".SettingsActivity" />
+        <activity android:name=".SolveByHand"></activity>
     </application>
 
 </manifest>
