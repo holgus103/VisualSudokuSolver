@@ -14,11 +14,7 @@
 #include "Sudoku.h"
 #define SUDOKU_SIZE 9
 
-Sudoku::Sudoku() {
-}
 
-Sudoku::Sudoku(const Sudoku& orig) {
-}
 
 Sudoku::~Sudoku() {
 }
@@ -28,7 +24,7 @@ int* Sudoku::getResult()
 {
         if (this->isValid)
         {
-            if(this.result == NULL)
+            if(this->result == NULL)
             {
 //                this.result = this->solve();
             }
@@ -133,14 +129,14 @@ int* Sudoku::Solve()
     int currentPosition = 0;
     while (correctPositions < SUDOKU_SIZE * SUDOKU_SIZE)
     {
-        if (this.isEmpty(currentPosition))
+        if (this->isEmpty(currentPosition))
         {
             bool placedSuccessfully = false;
             for (int i = result[currentPosition] + 1; i < 10; i++)
             {
-                if (this.checkConstraints(currentPosition, i))
+                if (this->checkConstraints(currentPosition, i))
                 {
-                    this.result[currentPosition] = i;
+                    this->result[currentPosition] = i;
                     currentPosition++;
                     correctPositions++;
                     placedSuccessfully = true;
@@ -153,12 +149,12 @@ int* Sudoku::Solve()
                 do
                 {
                     if (isEmpty)
-                        this.result[currentPosition] = 0;
+                        this->result[currentPosition] = 0;
                     currentPosition--;
                     correctPositions--;
-                    isEmpty = this.isEmpty(currentPosition);
+                    isEmpty = this->isEmpty(currentPosition);
                 }
-                while (!isEmpty || this.result[currentPosition] > 8);
+                while (!isEmpty || this->result[currentPosition] > 8);
             }
         }
         else
@@ -168,52 +164,27 @@ int* Sudoku::Solve()
         }
 
     }
-    return this.result;
+    return this->result;
 
 }
 
-public bool IsValid()
+bool Sudoku::IsValid()
 {
-    return this.isValid;
+    return this->isValid;
 }
 
-public bool IsValid(int[] sudoku)
+bool Sudoku::IsValid(int* sudoku)
 {
-    int[] temp = result;
-    this.result = sudoku;
+    int* temp = result;
+    this->result = sudoku;
     for (int i = 0; i < 81; i++)
     {
-        if (!this.checkConstraints(i))
+        if (!this->checkConstraints(i))
         {
-            this.result = null;
+            this->result = NULL;
             return false;
         }
     }
-    this.result = temp;
+    this->result = temp;
     return true;
 }
-
-public void DisplaySudoku(OutputStream stream)
-{
-    Sudoku.DisplaySudoku(this.sudoku, stream);
-}
-
-public static void DisplaySudoku(int[] sudoku, OutputStream stream)
-{
-    for (int i = 0; i < 81; i++)
-    {
-        // spaces between squares
-        if (i % 3 == 0 && i % 9 != 0)
-            stream(" ");
-        // separate lines
-        if (i % 9 == 0)
-            stream(Environment.NewLine);
-        // separate squares vertically
-        if (i % 27 == 0)
-            stream(Environment.NewLine);
-        stream(sudoku[i].ToString());
-    }
-}
-//
-//    }
-//

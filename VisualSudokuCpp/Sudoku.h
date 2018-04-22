@@ -20,15 +20,18 @@ public:
     virtual ~Sudoku();
     int* getResult();
     int* Solve();
+    bool IsValid();
+    bool IsValid(int* sudoku);
 private:
     int* sudoku;
     int* result;
     bool isValid;
-    bool checkRow(int elNum, int val = 0);
-    bool checkColumn(int elNum, int val = 0);
+    bool checkRow(int elNum, int val);
+    bool checkColumn(int elNum, int val);
     bool isEmpty(int elementNumber);
-    bool checkSquare(int elNum, int val = 0);
-    bool checkConstraints(int elNum, int val = 0);
+    bool checkSquare(int elNum, int val);
+    bool checkConstraints(int elNum, int val);
+    
 
 };
 
