@@ -36,6 +36,7 @@ class MainActivity : AppCompatActivity() {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
             val i = Intent(this, SudokuEditActivity::class.java);
+
             this.startActivity(i)
         }
     }

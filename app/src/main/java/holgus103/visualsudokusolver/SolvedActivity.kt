@@ -7,6 +7,7 @@ import android.text.InputType
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
+import holgus103.visualsudokusolver.db.dao.SudokuEntry
 import kotlinx.android.synthetic.main.sudoku.*
 
 class SolvedActivity : SudokuActivityBase() {
@@ -28,6 +29,8 @@ class SolvedActivity : SudokuActivityBase() {
     }
 
     fun save(v: View){
+        val sudoku = SudokuEntry(sudoku = this.rawSudoku)
+        SudokuApp.instance.dao.add(sudoku);
         val i = Intent(this, MainActivity::class.java);
         this.startActivity(i);
     }
