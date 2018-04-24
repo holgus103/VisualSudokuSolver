@@ -1,5 +1,7 @@
 package holgus103.visualsudokusolver.db.dao
 
+import android.database.Cursor
+import com.j256.ormlite.android.AndroidDatabaseResults
 import com.j256.ormlite.dao.Dao
 import holgus103.visualsudokusolver.db.DatabaseHelper
 
@@ -28,8 +30,10 @@ class SudokuDao(helper: DatabaseHelper) {
         dao.delete(entry);
     }
 
-    fun getALLOrdered(): MutableList<SudokuEntry>? {
-        return dao.queryBuilder().orderBy(TIMESTAMP, false).query();
+    fun getAllOrdered(): Cursor {
+        val q = dao.queryBuilder().orderBy(TIMESTAMP, false);
+        val res = dao.iterator(q.prepare()).rawResults as AndroidDatabaseResults;
+        return res.rawCursor;
     }
 
 
