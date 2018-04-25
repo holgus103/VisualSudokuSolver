@@ -6,6 +6,7 @@ import android.text.InputType
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
+import android.widget.Toast
 import kotlinx.android.synthetic.main.sudoku.*
 
 class SolveByHand : SudokuGridActivityBase() {
@@ -31,9 +32,11 @@ class SolveByHand : SudokuGridActivityBase() {
     fun check(v: View){
         if(this.checkSudoku(this.rawSudoku))
         {
+            Toast.makeText(this, getString(R.string.gz_message), Toast.LENGTH_SHORT);
             // sudoku is ok
         };
         else{
+            Toast.makeText(this, getString(R.string.fail_message), Toast.LENGTH_SHORT)
             // sudoku not ok
         }
         // TODO: display message + mark faulty digits(?)

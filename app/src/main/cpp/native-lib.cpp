@@ -1,4 +1,5 @@
 #include <jni.h>
+#include "Sudoku.h"
 #include <string>
 
 extern "C" JNIEXPORT jintArray
@@ -18,14 +19,21 @@ JNICALL Java_holgus103_visualsudokusolver_MainActivity_runRecognition(JNIEnv *en
             0,0,0, 4,1,9, 0,0,5,
             0,0,0, 0,8,0, 0,7,9
     };
-    auto res = env->NewIntArray(81);
-    env->SetIntArrayRegion(res, 0, 81, array);
+    auto res = env->NewIntArray(SUDOKU_SIZE*SUDOKU_SIZE);
+    env->SetIntArrayRegion(res, 0, SUDOKU_SIZE*SUDOKU_SIZE, array);
+    return res;
 }
 
 extern "C" JNIEXPORT jintArray
 
 JNICALL Java_holgus103_visualsudokusolver_SudokuEditActivity_solve(JNIEnv * env, jclass cls, jintArray sudoku){
-    return env->NewIntArray(81);
+
+    auto res = env->NewIntArray(SUDOKU_SIZE*SUDOKU_SIZE);
+    jint *arr = env->GetIntArrayElements(sudoku, false);
+    auto puzzle = Sudoku(arr);
+    jint* solution = puzzle.Solve();
+    env->SetIntArrayRegion(res, 0, 81, solution);
+    return res;
 }
 
 extern "C" JNIEXPORT bool

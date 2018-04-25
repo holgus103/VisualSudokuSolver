@@ -15,7 +15,7 @@ class SudokuApp : Application() {
 
     init {
         instance = this;
-        this.helper = DatabaseHelper(applicationContext);
+        this.helper = DatabaseHelper(this);
         this.dao = SudokuDao(this.helper);
     }
 

@@ -3,4 +3,7 @@
     <string name="autosave_title">Save recognized puzzles automatically</string>
     <string name="preference_title">Recognition</string>
     <string name="sudoku">SUDOKU</string>
+    <string name="autosave_key">autosave</string>
+    <string name="gz_message">Congratulations! You did it!</string>
+    <string name="fail_message">Something seems to be wrong! Try again!</string>
 </resources>

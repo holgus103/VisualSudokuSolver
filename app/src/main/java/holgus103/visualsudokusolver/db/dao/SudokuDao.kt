@@ -9,7 +9,7 @@ class SudokuDao(helper: DatabaseHelper) {
 
     companion object {
         lateinit var dao: Dao<SudokuEntry, Int>
-        const val ID : String = "id";
+        const val ID : String = "_id";
         const val SUDOKU : String = "sudoku";
         const val TIMESTAMP : String = "timestamp";
     }

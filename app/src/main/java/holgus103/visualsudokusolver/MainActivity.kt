@@ -60,7 +60,7 @@ class MainActivity : SudokuBaseActivity() {
 
             if (file != null) {
                 val photoURI = FileProvider.getUriForFile(this,
-                        "com.example.android.fileprovider",
+                        "holgus103.visualsudokusolver.fileprovider",
                         file)
                 takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
                 startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE)

@@ -8,13 +8,13 @@ import java.util.*
 @DatabaseTable(tableName = "SolvedSudokus")
 data class SudokuEntry(
 
-    @DatabaseField(generatedId = true)
+    @DatabaseField(generatedId = true, columnName = SudokuDao.ID)
     var id: Int? = null,
 
-    @DatabaseField(dataType = DataType.SERIALIZABLE)
+    @DatabaseField(dataType = DataType.SERIALIZABLE, columnName = SudokuDao.SUDOKU)
     var sudoku: IntArray = IntArray(81),
 
-    @DatabaseField()
+    @DatabaseField(columnName = SudokuDao.TIMESTAMP)
     var timestamp: Date = Date()
 
 )

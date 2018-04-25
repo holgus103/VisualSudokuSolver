@@ -20,6 +20,7 @@ abstract class SudokuGridActivityBase : SudokuBaseActivity() {
 
                 val cell = row.getChildAt(j) as EditText;
                 val current = this.rawSudoku[9 * i + j];
+                func(cell,  i, j, current);
                 // set sudoku values accordingly
 ;
             }
@@ -37,7 +38,7 @@ abstract class SudokuGridActivityBase : SudokuBaseActivity() {
             }
             else{
 
-                cell.text = SpannableStringBuilder();
+                cell.text = SpannableStringBuilder(current.toString());
             }
         });
 
