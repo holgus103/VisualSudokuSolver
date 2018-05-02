@@ -66,11 +66,11 @@
 
             <ImageButton
                 android:layout_width="match_parent"
-                android:onClick="save"
+                android:onClick="solveManually"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_weight="1"
-                app:srcCompat="@drawable/ic_share_white_24dp" />
+                app:srcCompat="@drawable/ic_create_white_24dp" />
 
             <LinearLayout
                 android:layout_width="match_parent"

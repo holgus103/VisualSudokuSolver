@@ -1,6 +1,7 @@
 package holgus103.visualsudokusolver
 
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
 import android.text.InputType
 import android.view.View
@@ -37,7 +38,9 @@ class SolveByHand : SudokuReadyGridActivity() {
                     .makeText(this, getString(R.string.incomplete_message), Toast.LENGTH_LONG)
                     .show()
         }
-        if(this.checkSudoku(this.rawSudoku))
+
+        val checked = this.checkSudoku(this.rawSudoku);
+        if(checked.all { v -> v })
         {
             Toast
                     .makeText(this, getString(R.string.gz_message), Toast.LENGTH_SHORT)
@@ -45,6 +48,15 @@ class SolveByHand : SudokuReadyGridActivity() {
             // sudoku is ok
         };
         else{
+
+            forEachField({cell, i, j, current ->
+                cell.setTextColor(Color.RED)
+                cell.setOnClickListener({v ->
+                    cell.setTextColor(Color.BLACK)
+                    v.setOnClickListener(null)
+                })
+            })
+
             Toast
                     .makeText(this, getString(R.string.fail_message), Toast.LENGTH_SHORT)
                     .show();
@@ -58,5 +70,5 @@ class SolveByHand : SudokuReadyGridActivity() {
         setContentView(R.layout.activity_solve_by_hand)
     }
 
-    external fun checkSudoku(sudoku: IntArray) : Boolean
+    external fun checkSudoku(sudoku: IntArray) : BooleanArray
 }

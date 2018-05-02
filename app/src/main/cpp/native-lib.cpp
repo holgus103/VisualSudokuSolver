@@ -36,10 +36,29 @@ JNICALL Java_holgus103_visualsudokusolver_SudokuGridActivityBase_solve(JNIEnv * 
     return res;
 }
 
-extern "C" JNIEXPORT bool
+extern "C" JNIEXPORT jbooleanArray
 
 JNICALL Java_holgus103_visualsudokusolver_SolveByHand_checkSudoku(JNIEnv * env, jclass cls, jintArray sudoku) {
-    return true;
+
+    auto res = env->NewBooleanArray(SUDOKU_SIZE*SUDOKU_SIZE);
+
+    jboolean array[] = {
+            true,true,true, true,true,true, true,true,true,
+            true,true,true, true,true,true, true,true,true,
+            true,true,true, true,true,true, true,true,true,
+
+            true,true,true, true,true,true, true,true,true,
+            true,true,true, true,true,true, true,true,true,
+            true,true,true, true,true,true, true,true,true,
+
+            true,true,true, true,true,true, true,true,true,
+            true,true,true, true,true,true, true,true,true,
+            true,true,true, true,true,true, true,true,true
+    };
+
+    env->SetBooleanArrayRegion(res, 0, SUDOKU_SIZE*SUDOKU_SIZE, array);
+
+    return res;
 }
 
 

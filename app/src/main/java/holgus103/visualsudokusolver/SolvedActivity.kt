@@ -15,12 +15,15 @@ import holgus103.visualsudokusolver.db.dao.SudokuEntry
 import java.io.File
 import java.io.FileOutputStream
 import java.util.*
+import android.content.ContentValues
+import android.provider.MediaStore
+
 
 class SolvedActivity : SudokuReadyGridActivity() {
 
     override fun prepareSudokuGrid() =
 
-        this.forEachField({cell, i, j, current ->
+        this.forEachField({ cell, _, _, _ ->
             cell.inputType = InputType.TYPE_NULL;
         });
 
@@ -37,6 +40,13 @@ class SolvedActivity : SudokuReadyGridActivity() {
 
     }
 
+    fun solveManually(v: View){
+        val i = Intent(this, SolveByHand::class.java);
+        i.putExtra(getString(R.string.raw_sudoku), this.fixedPuzzleValues)
+        i.putExtra(getString(R.string.sudoku), this.rawSudoku)
+        startActivity(i);
+    }
+
     fun save(v: View){
 
         val sudoku = SudokuEntry(sudoku = this.rawSudoku)
@@ -45,7 +55,13 @@ class SolvedActivity : SudokuReadyGridActivity() {
         this.startActivity(i);
     }
 
-    fun saveSudokuImage(v: View){
+    fun saveSolvedImage(v: View) =
+        this.saveSudokuImage(v, this.rawSudoku)
+
+    fun saveOrigjnalSudokuImage(v: View) =
+            this.saveSudokuImage(v, this.fixedPuzzleValues)
+
+    fun saveSudokuImage(v: View, arr: IntArray){
         val bitmap = Bitmap.createBitmap(270, 270, Bitmap.Config.RGB_565);
         val c = Canvas(bitmap)
         c.drawColor(Color.WHITE)
@@ -77,11 +93,13 @@ class SolvedActivity : SudokuReadyGridActivity() {
         // TODO: draw digits
         for(i in 0..8){
             for(j in 0..8){
-                c.drawText(
-                        this.rawSudoku[i*9+j].toString(),
-                        step*j+10.0F,
-                        step*i+25.0F,
-                        t)
+                if(rawSudoku[i*9+j] != 0) {
+                    c.drawText(
+                            this.rawSudoku[i * 9 + j].toString(),
+                            step * j + 10.0F,
+                            step * i + 25.0F,
+                            t)
+                }
             }
 
         }
@@ -99,6 +117,14 @@ class SolvedActivity : SudokuReadyGridActivity() {
         finally{
             if(stream != null){
                 stream.close()
+
+                val values = ContentValues()
+
+                values.put(MediaStore.Images.Media.DATE_TAKEN, System.currentTimeMillis());
+                values.put(MediaStore.Images.Media.MIME_TYPE, "image/jpeg");
+                values.put(MediaStore.MediaColumns.DATA, file.absolutePath);
+
+                this.getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
             }
         }
 
