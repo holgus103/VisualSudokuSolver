@@ -10,6 +10,8 @@ abstract class SudokuGridActivityBase : SudokuBaseActivity() {
 
     abstract fun prepareSudokuGrid();
 
+    external fun solve(sudoku: IntArray): IntArray
+
     fun forEachField(func : (EditText, Int, Int, Int) -> Unit){
 
         for (i in 0..(sudoku_grid.childCount-1)) {
@@ -27,7 +29,7 @@ abstract class SudokuGridActivityBase : SudokuBaseActivity() {
         }
     }
 
-    fun fillGrid() =
+    open fun fillGrid() =
 
         this.forEachField({cell, i, j, current ->
 
@@ -48,7 +50,7 @@ abstract class SudokuGridActivityBase : SudokuBaseActivity() {
         this.forEachField({cell, i, j, current ->
 
             val res = cell.text.toString().toIntOrNull();
-            if (res == null) {
+            if (res == null || res > 9 || res < 1) {
                 this.rawSudoku[i*9 + j] = 0;
             }
             else{
@@ -56,6 +58,12 @@ abstract class SudokuGridActivityBase : SudokuBaseActivity() {
             }
         })
 
+    fun isGridComplete(): Boolean {
+        // sync grid
+        this.parseGrid();
+        // check if all fields are filled
+        return this.rawSudoku.any({ x -> x == 0 })
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
 

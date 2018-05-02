@@ -10,7 +10,9 @@ import android.widget.TextView
 import holgus103.visualsudokusolver.R
 import holgus103.visualsudokusolver.db.dao.SudokuDao
 
-class SudokuEntriesAdapter(ctx: Context, cursor: Cursor, flags: Int) : CursorAdapter(ctx, cursor, flags){
+class SudokuEntriesAdapter(ctx: Context, cursor: Cursor, flags: Int, elementCallback : ((Int?) -> Unit)) : CursorAdapter(ctx, cursor, flags){
+
+    val callback = elementCallback;
 
     override fun bindView(view: View?, context: Context?, cursor: Cursor?) {
         view?.findViewById<TextView>(R.id.timestamp)?.text = cursor?.
@@ -19,7 +21,13 @@ class SudokuEntriesAdapter(ctx: Context, cursor: Cursor, flags: Int) : CursorAda
     }
 
     override fun newView(context: Context?, cursor: Cursor?, parent: ViewGroup?): View {
-        return LayoutInflater.from(context).inflate(R.layout.item, parent, false);
+        val v = LayoutInflater.from(context).inflate(R.layout.item, parent, false);
+        v.setOnClickListener(
+                {
+                    callback(cursor?.getInt(cursor?.getColumnIndexOrThrow(SudokuDao.ID)))
+                }
+        )
+        return v;
     }
 
 }

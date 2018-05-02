@@ -6,4 +6,6 @@
     <string name="autosave_key">autosave</string>
     <string name="gz_message">Congratulations! You did it!</string>
     <string name="fail_message">Something seems to be wrong! Try again!</string>
+    <string name="raw_sudoku">ORIGINAL_SUDOKU</string>
+    <string name="incomplete_message">Please ensure all fields of the sudoku all filled</string>
 </resources>

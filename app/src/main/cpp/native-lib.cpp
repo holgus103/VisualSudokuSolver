@@ -26,7 +26,7 @@ JNICALL Java_holgus103_visualsudokusolver_MainActivity_runRecognition(JNIEnv *en
 
 extern "C" JNIEXPORT jintArray
 
-JNICALL Java_holgus103_visualsudokusolver_SudokuEditActivity_solve(JNIEnv * env, jclass cls, jintArray sudoku){
+JNICALL Java_holgus103_visualsudokusolver_SudokuGridActivityBase_solve(JNIEnv * env, jclass cls, jintArray sudoku){
 
     auto res = env->NewIntArray(SUDOKU_SIZE*SUDOKU_SIZE);
     jint *arr = env->GetIntArrayElements(sudoku, false);
@@ -38,7 +38,7 @@ JNICALL Java_holgus103_visualsudokusolver_SudokuEditActivity_solve(JNIEnv * env,
 
 extern "C" JNIEXPORT bool
 
-JNICALL Java_holgus103_visualsudokusolver_SolveByHand_check(JNIEnv * env, jclass cls, jintArray sudoku) {
+JNICALL Java_holgus103_visualsudokusolver_SolveByHand_checkSudoku(JNIEnv * env, jclass cls, jintArray sudoku) {
     return true;
 }
 

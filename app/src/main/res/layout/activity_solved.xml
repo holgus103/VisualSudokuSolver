@@ -56,7 +56,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_weight="1"
-                android:onClick="save"
+                android:onClick="saveSudokuImage"
                 app:srcCompat="@drawable/ic_image_white_24dp" />
 
             <LinearLayout

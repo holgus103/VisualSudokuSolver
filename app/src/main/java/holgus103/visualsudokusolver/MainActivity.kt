@@ -6,6 +6,7 @@ import android.view.View
 import kotlinx.android.synthetic.main.activity_main.*
 import android.provider.MediaStore
 import android.content.Intent
+import android.graphics.Bitmap
 import android.os.Environment
 import holgus103.visualsudokusolver.db.SudokuEntriesAdapter
 import android.os.Environment.DIRECTORY_PICTURES
@@ -26,9 +27,19 @@ class MainActivity : SudokuBaseActivity() {
         entries.adapter = SudokuEntriesAdapter(
                 this,
                 SudokuApp.instance.dao.getAllOrdered(),
-                0)
+                0,
+                {id -> openHistoricEntry(id)})
         // Example of a call to a native method
 //        sample_text.text = stringFromJNI()
+    }
+
+    fun openHistoricEntry(id : Int?) {
+        val entry = SudokuApp.instance.dao.get(id);
+        val i = Intent(this, SolvedActivity::class.java)
+        i.putExtra(getString(R.string.sudoku), entry.sudoku)
+        i.putExtra(getString(R.string.raw_sudoku), entry.original)
+        startActivity(i);
+
     }
 
     @Throws(IOException::class)
@@ -76,7 +87,10 @@ class MainActivity : SudokuBaseActivity() {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
             val i = Intent(this, SudokuEditActivity::class.java);
+            val file = File(this.photoPath);
+            // TODO: pass Bitmap somehow
             this.rawSudoku = this.runRecognition();
+            file.delete();
             i.putExtra(getString(R.string.sudoku), this.rawSudoku);
             this.startActivity(i)
         }
