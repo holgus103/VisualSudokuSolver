@@ -149,7 +149,9 @@ class SolvedActivity : SudokuReadyGridActivity() {
         val stream = file.outputStream()
         try {
             val res = bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream)
-            Toast.makeText(this,R.string.msg_export_successful, Toast.LENGTH_LONG)
+            Toast
+                    .makeText(this,R.string.msg_export_successful, Toast.LENGTH_LONG)
+                    .show();
         }
         catch(e: Exception){
             Log.d("EXCEPTION", e.message)
