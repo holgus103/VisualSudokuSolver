@@ -93,6 +93,7 @@ class SolvedActivity : SudokuReadyGridActivity() {
     }
 
     fun saveSudokuImage(arr: IntArray){
+        val fixed = this.fixedPuzzleValues;
         val bitmap = Bitmap.createBitmap(270, 270, Bitmap.Config.RGB_565);
         val c = Canvas(bitmap)
         c.drawColor(Color.WHITE)
@@ -107,6 +108,12 @@ class SolvedActivity : SudokuReadyGridActivity() {
         t.textSize = 30f;
         t.style = Paint.Style.STROKE
         t.strokeJoin = Paint.Join.ROUND
+        val fixed_t = Paint()
+        fixed_t.color = Color.BLACK
+        fixed_t.textSize = 30f;
+        fixed_t.style = Paint.Style.FILL_AND_STROKE
+        fixed_t.strokeJoin = Paint.Join.BEVEL
+        fixed_t.strokeWidth = 2f;
         var h = 0.0F;
         var w = 0.0F;
         // draw horizontal lines
@@ -124,11 +131,14 @@ class SolvedActivity : SudokuReadyGridActivity() {
         for(i in 0..8){
             for(j in 0..8){
                 if(arr[i*9+j] != 0) {
+                    var paint: Paint? = null;
+                    paint = if (fixed[i*9+j]!=0) fixed_t else t;
+
                     c.drawText(
                             arr[i * 9 + j].toString(),
                             step * j + 10.0F,
                             step * i + 25.0F,
-                            t)
+                            paint)
                 }
             }
 

@@ -38,7 +38,7 @@ class MainActivity : SudokuBaseActivity() {
         val i = Intent(this, SolvedActivity::class.java)
         i.putExtra(getString(R.string.sudoku), entry.sudoku)
         i.putExtra(getString(R.string.raw_sudoku), entry.original)
-        i.putExtra(getString(R.string.entry_id), entry.id)  
+        i.putExtra(getString(R.string.entry_id), entry.id)
         startActivity(i);
 
     }
