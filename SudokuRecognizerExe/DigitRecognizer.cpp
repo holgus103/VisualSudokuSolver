@@ -37,7 +37,7 @@ int DigitRecognizer::flipInt(int v){
     return res;    
 }
 
-int DigitRecognizer::classify(cv::Mat input){
+float DigitRecognizer::classify(cv::Mat input){
     Mat response;
     try{
         auto width = input.size().width;
@@ -56,7 +56,7 @@ int DigitRecognizer::classify(cv::Mat input){
         std::cout << ex.what();
     }
     
-    return response.at<int>(0,0);
+    return response.at<float>(0,0);
 }
 
 void DigitRecognizer::train(char* data, char* labels){

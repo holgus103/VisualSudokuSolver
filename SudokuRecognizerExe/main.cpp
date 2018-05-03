@@ -102,14 +102,14 @@ int main(int argc, char** argv) {
     auto persp = Mat(Size(TARGET_SQUARE_SIZE*SUDOKU_SIZE, TARGET_SQUARE_SIZE*SUDOKU_SIZE), CV_8UC1);
     Point2f dstPoints[] = {
         Point2f(0,0),
-        Point2f(0, TARGET_SQUARE_SIZE*SUDOKU_SIZE-1),
-        Point2f(TARGET_SQUARE_SIZE*SUDOKU_SIZE-1, 0),
-        Point2f(TARGET_SQUARE_SIZE*SUDOKU_SIZE-1, TARGET_SQUARE_SIZE*SUDOKU_SIZE-1)
+        Point2f(0, TARGET_SQUARE_SIZE*SUDOKU_SIZE),
+        Point2f(TARGET_SQUARE_SIZE*SUDOKU_SIZE, 0),
+        Point2f(TARGET_SQUARE_SIZE*SUDOKU_SIZE, TARGET_SQUARE_SIZE*SUDOKU_SIZE)
     };
     
     sortPoints(curve);
     Point2f srcPoints[] = {curve[0], curve[1], curve[2], curve[3]};
-    warpPerspective(image, persp, getPerspectiveTransform(srcPoints, dstPoints), Size(TARGET_SQUARE_SIZE*SUDOKU_SIZE-1, TARGET_SQUARE_SIZE*SUDOKU_SIZE-1));
+    warpPerspective(image, persp, getPerspectiveTransform(srcPoints, dstPoints), Size(TARGET_SQUARE_SIZE*SUDOKU_SIZE, TARGET_SQUARE_SIZE*SUDOKU_SIZE));
     
 #ifdef DISPLAY_PROGRESS
     show(persp);
@@ -121,9 +121,19 @@ int main(int argc, char** argv) {
 #ifdef DISPLAY_PROGRESS
             show(persp(Rect(j*TARGET_SQUARE_SIZE, i*TARGET_SQUARE_SIZE, TARGET_SQUARE_SIZE, TARGET_SQUARE_SIZE)));
 #endif
-            result[i][j] = r->classify(persp(Rect(j*TARGET_SQUARE_SIZE, i*TARGET_SQUARE_SIZE, TARGET_SQUARE_SIZE, TARGET_SQUARE_SIZE)));
-            
+            try{
+                result[i][j] = (int)(0.5f + r->classify(persp(Rect(j*TARGET_SQUARE_SIZE, i*TARGET_SQUARE_SIZE, TARGET_SQUARE_SIZE, TARGET_SQUARE_SIZE))));
+            }
+            catch(cv::Exception ex){
+                std::cout << ex.msg << std::endl;
+            }
+#ifdef LOG_RESULTS           
+            std::cout << result[i][j] << " ";
+#endif
         }
+#ifdef LOG_RESULTS
+        std::cout << std::endl;
+#endif
     }
     
     

@@ -27,7 +27,7 @@ public:
     DigitRecognizer(const DigitRecognizer& orig);
     virtual ~DigitRecognizer();
     void train(char*, char*);
-    int classify(cv::Mat);
+    float classify(cv::Mat);
     void serialize();
 private:
     cv::Ptr<cv::ml::KNearest> knn;
