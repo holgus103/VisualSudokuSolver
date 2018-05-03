@@ -8,4 +8,9 @@
     <string name="fail_message">Something seems to be wrong! Try again!</string>
     <string name="raw_sudoku">ORIGINAL_SUDOKU</string>
     <string name="incomplete_message">Please ensure all fields of the sudoku all filled</string>
+    <string name="msg_export_sudoku">Which sudoku to export?</string>
+    <string name="solved_sudoku">Solved puzzle</string>
+    <string name="original_sudoku">Original unsolved sudoku</string>
+    <string name="msg_export_successful">Exported successfully!</string>
+    <string name="entry_id">ENTRY_ID</string>
 </resources>

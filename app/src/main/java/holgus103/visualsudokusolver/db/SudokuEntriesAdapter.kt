@@ -17,17 +17,17 @@ class SudokuEntriesAdapter(ctx: Context, cursor: Cursor, flags: Int, elementCall
     override fun bindView(view: View?, context: Context?, cursor: Cursor?) {
         view?.findViewById<TextView>(R.id.timestamp)?.text = cursor?.
                 getString(cursor?.getColumnIndexOrThrow(SudokuDao.TIMESTAMP));
+        val id = cursor?.getInt(cursor?.getColumnIndexOrThrow(SudokuDao.ID));
+        view?.setOnClickListener(
+                {
+                    callback(id)
+                }
+        )
 
     }
 
     override fun newView(context: Context?, cursor: Cursor?, parent: ViewGroup?): View {
-        val v = LayoutInflater.from(context).inflate(R.layout.item, parent, false);
-        v.setOnClickListener(
-                {
-                    callback(cursor?.getInt(cursor?.getColumnIndexOrThrow(SudokuDao.ID)))
-                }
-        )
-        return v;
+        return LayoutInflater.from(context).inflate(R.layout.item, parent, false);
     }
 
 }

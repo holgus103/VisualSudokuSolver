@@ -1,5 +1,6 @@
 package holgus103.visualsudokusolver
 
+import android.app.AlertDialog
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.Canvas
@@ -13,10 +14,11 @@ import android.util.Log
 import android.view.View
 import holgus103.visualsudokusolver.db.dao.SudokuEntry
 import java.io.File
-import java.io.FileOutputStream
 import java.util.*
 import android.content.ContentValues
+import android.content.DialogInterface
 import android.provider.MediaStore
+import android.widget.Toast
 
 
 class SolvedActivity : SudokuReadyGridActivity() {
@@ -33,6 +35,8 @@ class SolvedActivity : SudokuReadyGridActivity() {
 
         val m = PreferenceManager.getDefaultSharedPreferences(this);
         val autosave = m.getBoolean(getString(R.string.autosave_key), false);
+        this.id = intent.getIntExtra(getString(R.string.entry_id), -1);
+
         if(autosave){
             val sudoku = SudokuEntry(sudoku = this.rawSudoku)
             SudokuApp.instance.dao.add(sudoku);
@@ -40,28 +44,55 @@ class SolvedActivity : SudokuReadyGridActivity() {
 
     }
 
+    var id: Int = -1;
+
+    fun delete(v: View){
+        if(id < 0) return
+        val entry = SudokuApp.instance.dao.get(this.id)
+        SudokuApp.instance.dao.delete(entry);
+        startActivity(Intent(this,  MainActivity::class.java));
+
+
+    }
+
     fun solveManually(v: View){
         val i = Intent(this, SolveByHand::class.java);
         i.putExtra(getString(R.string.raw_sudoku), this.fixedPuzzleValues)
-        i.putExtra(getString(R.string.sudoku), this.rawSudoku)
+        i.putExtra(getString(R.string.sudoku), this.fixedPuzzleValues)
         startActivity(i);
     }
 
     fun save(v: View){
 
-        val sudoku = SudokuEntry(sudoku = this.rawSudoku)
+        val sudoku = SudokuEntry(sudoku = this.rawSudoku, original = this.fixedPuzzleValues)
         SudokuApp.instance.dao.add(sudoku);
         val i = Intent(this, MainActivity::class.java);
         this.startActivity(i);
     }
 
-    fun saveSolvedImage(v: View) =
-        this.saveSudokuImage(v, this.rawSudoku)
+    fun saveImage(v: View){
+        AlertDialog
+                .Builder(this)
+                .setTitle(getString(R.string.msg_export_sudoku))
+                .setItems(
+                        arrayOf(
+                            getString(R.string.original_sudoku),
+                            getString(R.string.solved_sudoku)
+                        ),
+                        DialogInterface.OnClickListener(
+                                {dialog, which ->
+                                    when(which) {
+                                        0 -> this.saveSudokuImage(this.fixedPuzzleValues)
+                                        1 -> this.saveSudokuImage(this.rawSudoku)
+                                    }
+                                }
+                        )
+                )
+                .create()
+                .show()
+    }
 
-    fun saveOrigjnalSudokuImage(v: View) =
-            this.saveSudokuImage(v, this.fixedPuzzleValues)
-
-    fun saveSudokuImage(v: View, arr: IntArray){
+    fun saveSudokuImage(arr: IntArray){
         val bitmap = Bitmap.createBitmap(270, 270, Bitmap.Config.RGB_565);
         val c = Canvas(bitmap)
         c.drawColor(Color.WHITE)
@@ -90,12 +121,11 @@ class SolvedActivity : SudokuReadyGridActivity() {
         }
         val step = 30;
         // draw digits
-        // TODO: draw digits
         for(i in 0..8){
             for(j in 0..8){
-                if(rawSudoku[i*9+j] != 0) {
+                if(arr[i*9+j] != 0) {
                     c.drawText(
-                            this.rawSudoku[i * 9 + j].toString(),
+                            arr[i * 9 + j].toString(),
                             step * j + 10.0F,
                             step * i + 25.0F,
                             t)
@@ -109,6 +139,7 @@ class SolvedActivity : SudokuReadyGridActivity() {
         val stream = file.outputStream()
         try {
             val res = bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream)
+            Toast.makeText(this,R.string.msg_export_successful, Toast.LENGTH_LONG)
         }
         catch(e: Exception){
             Log.d("EXCEPTION", e.message)
