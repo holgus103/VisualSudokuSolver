@@ -1,10 +1,4 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
-/* 
  * File:   Sudoku.h
  * Author: holgus103
  *
@@ -13,16 +7,19 @@
 #include <memory>
 #ifndef SUDOKU_H
 #define SUDOKU_H
+
 #define SUDOKU_SIZE 9
 
 class Sudoku {
 public:
     Sudoku(int* sudoku);
+    Sudoku();
     virtual ~Sudoku();
     int* getResult();
     int* Solve();
     bool IsValid();
     bool IsValid(int* sudoku);
+    bool* IsValidDetail(int* sudoku);
 private:
     int* sudoku;
     int* result;
@@ -32,7 +29,8 @@ private:
     bool isEmpty(int elementNumber);
     bool checkSquare(int elNum, int val);
     bool checkConstraints(int elNum, int val);
-    
+    bool isValidDetail(int* sudoku, bool* details);
+
 
 };
 

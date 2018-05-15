@@ -19,18 +19,21 @@
 Sudoku::~Sudoku() {
 }
 
+Sudoku::Sudoku(){
+
+}
 
 int* Sudoku::getResult()
 {
-        if (this->isValid)
+    if (this->isValid)
+    {
+        if(this->result == NULL)
         {
-            if(this->result == NULL)
-            {
-                this->result = this->Solve();
-            }
-            return result;
+            this->Solve();
         }
-        return NULL;
+        return result;
+    }
+    return NULL;
 }
 
 bool Sudoku::checkRow(int elNum, int val = 0)
@@ -121,6 +124,7 @@ Sudoku::Sudoku(int* sudoku)
 
 int* Sudoku::Solve()
 {
+    if(this-> result != NULL) return this->result;
     this->result = new int[SUDOKU_SIZE * SUDOKU_SIZE];
     for(auto i=0; i < SUDOKU_SIZE * SUDOKU_SIZE; i++){
         this->result[i] = this->sudoku[i];
@@ -175,16 +179,40 @@ bool Sudoku::IsValid()
 
 bool Sudoku::IsValid(int* sudoku)
 {
+    this->isValidDetail(sudoku, NULL);
+}
+
+bool Sudoku::isValidDetail(int* sudoku, bool* details)
+{
     int* temp = result;
+    bool res = true;
     this->result = sudoku;
     for (int i = 0; i < 81; i++)
     {
-        if (!this->checkConstraints(i,0))
+        if (!this->checkConstraints(i, 0))
         {
-            this->result = NULL;
-            return false;
+            res = false;
+            if(details == NULL){
+                this->result = temp;
+                return false;
+            }
+            else{
+                details[i] = false;
+            }
+        }
+        else{
+            if(details != NULL){
+                details[i] = true;
+            }
         }
     }
     this->result = temp;
-    return true;
+    return res;
+}
+
+bool* Sudoku::IsValidDetail(int* sudoku)
+{
+    bool* details = new bool[SUDOKU_SIZE* SUDOKU_SIZE];
+    this->isValidDetail(sudoku, details);
+    return details;
 }

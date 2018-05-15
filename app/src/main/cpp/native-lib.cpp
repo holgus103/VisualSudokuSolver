@@ -41,23 +41,17 @@ extern "C" JNIEXPORT jbooleanArray
 JNICALL Java_holgus103_visualsudokusolver_SolveByHand_checkSudoku(JNIEnv * env, jclass cls, jintArray sudoku) {
 
     auto res = env->NewBooleanArray(SUDOKU_SIZE*SUDOKU_SIZE);
-
-    jboolean array[] = {
-            true,true,true, true,true,true, true,true,true,
-            true,true,true, true,true,true, true,true,true,
-            true,true,true, true,true,true, true,true,true,
-
-            true,true,true, true,true,true, true,true,true,
-            true,true,true, true,true,true, true,true,true,
-            true,true,true, true,true,true, true,true,true,
-
-            true,true,true, true,true,true, true,true,true,
-            true,true,true, true,true,true, true,true,true,
-            true,true,true, true,true,true, true,true,true
-    };
-
-    env->SetBooleanArrayRegion(res, 0, SUDOKU_SIZE*SUDOKU_SIZE, array);
-
+    auto arr = env->GetIntArrayElements(sudoku, false);
+    Sudoku puzzle = Sudoku();
+    auto validityMap = puzzle.IsValidDetail(arr);
+//    jboolean jni_validityMap[SUDOKU_SIZE*SUDOKU_SIZE];
+//    for(auto i = 0; i< SUDOKU_SIZE* SUDOKU_SIZE; i++){
+//        jni_validityMap[i] = (jboolean)
+//    }
+//    for(auto i = 0; i < SUDOKU_SIZE * SUDOKU_SIZE; i++){
+        env->SetBooleanArrayRegion(res, 0, 81, (jboolean*)validityMap);
+//    }
+    delete validityMap;
     return res;
 }
 

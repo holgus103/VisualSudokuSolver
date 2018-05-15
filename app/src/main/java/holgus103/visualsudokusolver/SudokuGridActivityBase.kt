@@ -62,7 +62,7 @@ abstract class SudokuGridActivityBase : SudokuBaseActivity() {
         // sync grid
         this.parseGrid();
         // check if all fields are filled
-        return this.rawSudoku.any({ x -> x == 0 })
+        return !this.rawSudoku.any({ x -> x == 0 })
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

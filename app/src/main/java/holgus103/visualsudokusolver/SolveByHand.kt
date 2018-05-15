@@ -33,10 +33,16 @@ class SolveByHand : SudokuReadyGridActivity() {
     }
 
     fun check(v: View){
-        if(this.isGridComplete()){
+
+        forEachField({cell, _, _, _ ->
+            cell.setTextColor(Color.BLACK);
+        })
+
+        if(!this.isGridComplete()){
             Toast
                     .makeText(this, getString(R.string.incomplete_message), Toast.LENGTH_LONG)
                     .show()
+            return;
         }
 
         val checked = this.checkSudoku(this.rawSudoku);
@@ -50,11 +56,13 @@ class SolveByHand : SudokuReadyGridActivity() {
         else{
 
             forEachField({cell, i, j, current ->
-                cell.setTextColor(Color.RED)
-                cell.setOnClickListener({v ->
-                    cell.setTextColor(Color.BLACK)
-                    v.setOnClickListener(null)
-                })
+                if(!checked[i*9+j]) {
+                    cell.setTextColor(Color.RED)
+                    cell.setOnFocusChangeListener({ v, hasFocus  ->
+                        cell.setTextColor(Color.BLACK);
+                        v.setOnFocusChangeListener(null);
+                    })
+                }
             })
 
             Toast
