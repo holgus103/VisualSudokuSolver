@@ -22,6 +22,7 @@ public:
     int* Solve();
     bool IsValid();
     bool IsValid(int* sudoku);
+    bool* IsValidDetail(int* sudoku);
 private:
     int* sudoku;
     int* result;
@@ -31,6 +32,7 @@ private:
     bool isEmpty(int elementNumber);
     bool checkSquare(int elNum, int val);
     bool checkConstraints(int elNum, int val);
+    bool isValidDetail(int* sudoku, bool* details);
     
 
 };
