@@ -23,11 +23,12 @@
 class DigitRecognizer {
 public:
     DigitRecognizer();
-    DigitRecognizer(char* path);
-    DigitRecognizer(const DigitRecognizer& orig);
+    DigitRecognizer(char* path);    
+    DigitRecognizer(std::string path);
     virtual ~DigitRecognizer();
-    void train(char*, char*);
+    void train(std::vector<cv::Mat> data, std::vector<int> labels);
     float classify(cv::Mat);
+    void saveClassifier(std::string path);
     void serialize();
 private:
     cv::Ptr<cv::ml::KNearest> knn;
