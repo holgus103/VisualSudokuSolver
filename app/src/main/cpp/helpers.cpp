@@ -1,35 +1,19 @@
-// reference: http://aishack.in/tutorials/sudoku-grabber-opencv-detection/
+//
+// Created by holgus103 on 19/05/18.
+//
 
-/* 
- * File:   main.cpp
- * Author: holgus103
- *
- * Created on 30 mars 2018, 02:23
- */
-//#include <cv.h>
-//#include <highgui.h>
-#include <opencv2/highgui/highgui.hpp>
-#include <opencv2/core/core.hpp>
-#include <opencv2/imgproc/imgproc.hpp>
-#include <vector>
-#include <algorithm>
-#include "globals.h"
-#include <fstream>
-#include "DigitResognizer.h"
+#include "helpers.h"
 
 
 using namespace std;
 using namespace cv;
 
-/*
- * 
- */
 bool xCompare(Point a, Point b){
     return a.x < b.x;
 }
 
 void swap(vector<Point>& v, int src, int dst){
-    Point tmp; 
+    Point tmp;
     tmp = v[src];
     v[src] = v[dst];
     v[dst] = tmp;
@@ -42,12 +26,12 @@ void sortPoints(vector<Point>& v){
         // swap
         swap(v, 0, 1);
     }
-    
+
     if(v[2].y > v[3].y){
-        swap(v, 2, 3);          
+        swap(v, 2, 3);
     }
 
-    
+
 }
 
 void show(Mat v) {
@@ -70,7 +54,7 @@ void extractDigitImages(std::string name, std::vector<Mat>& digits, std::vector<
             labels.push_back(lab);
         }
     }
-    // load image 
+    // load image
     auto image = imread(name + ".jpg", 0);
 //    show(image);
     // create empty image
@@ -97,7 +81,7 @@ void extractDigitImages(std::string name, std::vector<Mat>& digits, std::vector<
     approxPolyDP(contours[0], curve, 0.1*arcLength(contours[0], true), true);
     c.push_back(curve);
     drawContours(box, c, 0, Scalar(255), CV_FILLED);
-    
+
 //    Mat t;
 //    cv::resize(box, t, cv::Size(image.cols * 0.2,image.rows * 0.2));
 //    show(t);
@@ -105,25 +89,25 @@ void extractDigitImages(std::string name, std::vector<Mat>& digits, std::vector<
 
     auto persp = Mat(Size(TARGET_SQUARE_SIZE*SUDOKU_SIZE, TARGET_SQUARE_SIZE*SUDOKU_SIZE), CV_8UC1);
     Point2f dstPoints[] = {
-        Point2f(0,0),
-        Point2f(0, TARGET_SQUARE_SIZE*SUDOKU_SIZE),
-        Point2f(TARGET_SQUARE_SIZE*SUDOKU_SIZE, 0),
-        Point2f(TARGET_SQUARE_SIZE*SUDOKU_SIZE, TARGET_SQUARE_SIZE*SUDOKU_SIZE)
+            Point2f(0,0),
+            Point2f(0, TARGET_SQUARE_SIZE*SUDOKU_SIZE),
+            Point2f(TARGET_SQUARE_SIZE*SUDOKU_SIZE, 0),
+            Point2f(TARGET_SQUARE_SIZE*SUDOKU_SIZE, TARGET_SQUARE_SIZE*SUDOKU_SIZE)
     };
-    
+
     sortPoints(curve);
     Point2f srcPoints[] = {curve[0], curve[1], curve[2], curve[3]};
     warpPerspective(image, persp, getPerspectiveTransform(srcPoints, dstPoints), Size(TARGET_SQUARE_SIZE*SUDOKU_SIZE, TARGET_SQUARE_SIZE*SUDOKU_SIZE));
-    
+
 #ifdef DISPLAY_PROGRESS
     show(persp);
 #endif
-    
+
     for(auto i = 0; i < SUDOKU_SIZE; i++){
         for(auto j = 0; j < SUDOKU_SIZE; j++){
-            
+
 #ifdef DISPLAY_PROGRESS
-            show(persp(Rect(j*TARGET_SQUARE_SIZE, i*TARGET_SQUARE_SIZE, TARGET_SQUARE_SIZE, TARGET_SQUARE_SIZE)));         
+            show(persp(Rect(j*TARGET_SQUARE_SIZE, i*TARGET_SQUARE_SIZE, TARGET_SQUARE_SIZE, TARGET_SQUARE_SIZE)));
 #endif
             auto digit = persp(Rect(j*TARGET_SQUARE_SIZE, i*TARGET_SQUARE_SIZE, TARGET_SQUARE_SIZE, TARGET_SQUARE_SIZE));
             auto output = Mat(TARGET_SQUARE_SIZE, TARGET_SQUARE_SIZE, CV_32FC1);
@@ -132,70 +116,4 @@ void extractDigitImages(std::string name, std::vector<Mat>& digits, std::vector<
             digits.push_back(output);
         }
     }
-} 
-
-int main(int argc, char** argv) {
-    
-    std::string fileNames[] = {
-        "./../images/sudoku_1a",
-        "./../images/sudoku_1b",
-        "./../images/sudoku_1c",
-        "./../images/sudoku_2a",
-        "./../images/sudoku_2b",
-        "./../images/sudoku_3a",
-        "./../images/sudoku_3b",
-        "./../images/sudoku_4a",
-        "./../images/sudoku_5a",
-        "./../images/sudoku_5b",
-        "./../images/sudoku_5c",
-        "./../images/sudoku_6b",
-        "./../images/sudoku_6c",
-        "./../images/sudoku_7a",
-        "./../images/sudoku_7b",
-        "./../images/sudoku_7d",
-        "./../images/sudoku_8a",
-        "./../images/sudoku_8c",
-        "./../images/sudoku_9a",
-        "./../images/sudoku_9c",
-        "./../images/sudoku_9d",
-        "./../images/sudoku_9e",
-        "./../images/sudoku_10a",
-        "./../images/sudoku_10b",
-        "./../images/sudoku_11a",
-        "./../images/sudoku_11b",
-        "./../images/sudoku_12a",
-        "./../images/sudoku_12b",
-        "./../images/sudoku_12c",
-        "./../images/sudoku_12d",
-        "./../images/sudoku_13a",
-        "./../images/sudoku_15a",
-        "./../images/sudoku_16a",
-        "./../images/sudoku_17a",
-        "./../images/sudoku_19a"
-    };
-    auto digits = std::vector<Mat>();
-    auto labels = std::vector<int>();
-    int max = sizeof(fileNames)/ sizeof(*fileNames);
-    for(auto i = 0; i < max; i++){
-        extractDigitImages(fileNames[i], digits, labels, true);
-    }
-//    return 0;
-//    int result[SUDOKU_SIZE][SUDOKU_SIZE];
-    auto r = new DigitRecognizer();
-    r->train(digits, labels);
-    auto test = std::vector<Mat>();
-    auto testResults = std::vector<int>();
-    int correct = 0;
-    extractDigitImages("./../images/sudoku_20a", test, testResults, true);
-    for(auto i = 0; i < test.size(); i++){
-        auto val = r->classify(test[i]);
-        if(abs(val - testResults[i]) < 0.1)
-            correct++;
-    }
-
-    std::cout << (float) correct / (float)test.size() << std::endl;
-    r->saveClassifier("knn.xml");
-    return 0;
-
 }
-

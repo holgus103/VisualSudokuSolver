@@ -15,7 +15,8 @@ android {
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         externalNativeBuild {
             cmake {
-                cppFlags ""
+                cppFlags "-std=c++11 -frtti -fexceptions"
+                abiFilters 'x86', 'x86_64', 'armeabi-v7a', 'arm64-v8a'
             }
         }
     }
@@ -27,11 +28,19 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+
         }
     }
+    sourceSets {
+        main {
+            jniLibs.srcDirs = ['/home/holgus103/Projects/VisualSudokuSolver/app/src/main/jniLibs/']
+        }
+    }
+
     externalNativeBuild {
         cmake {
             path "CMakeLists.txt"
+
         }
     }
 }

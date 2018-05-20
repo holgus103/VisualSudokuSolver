@@ -1,5 +1,4 @@
-
-/* 
+/*
  * File:   globals.h
  * Author: holgus103
  *

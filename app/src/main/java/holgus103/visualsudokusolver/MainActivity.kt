@@ -90,7 +90,7 @@ class MainActivity : SudokuBaseActivity() {
             val i = Intent(this, SudokuEditActivity::class.java);
             val file = File(this.photoPath);
             // TODO: pass Bitmap somehow
-            this.rawSudoku = this.runRecognition();
+            this.rawSudoku = this.runRecognition(this.photoPath);
             file.delete();
             i.putExtra(getString(R.string.sudoku), this.rawSudoku);
             this.startActivity(i)
@@ -101,7 +101,7 @@ class MainActivity : SudokuBaseActivity() {
      * A native method that is implemented by the 'native-lib' native library,
      * which is packaged with this application.
      */
-    external fun runRecognition(): IntArray
+    external fun runRecognition(path: String): IntArray
 
     companion object {
 
@@ -109,6 +109,7 @@ class MainActivity : SudokuBaseActivity() {
 
         // Used to load the 'native-lib' library on application startup.
         init {
+            System.load("/data/app/org.opencv.engine-1/lib/arm/libopencv_java3.so")
             System.loadLibrary("native-lib")
         }
     }

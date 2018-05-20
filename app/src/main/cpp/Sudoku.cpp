@@ -179,7 +179,7 @@ bool Sudoku::IsValid()
 
 bool Sudoku::IsValid(int* sudoku)
 {
-    this->isValidDetail(sudoku, NULL);
+    return this->isValidDetail(sudoku, NULL);
 }
 
 bool Sudoku::isValidDetail(int* sudoku, bool* details)
