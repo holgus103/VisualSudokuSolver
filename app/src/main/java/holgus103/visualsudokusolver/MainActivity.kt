@@ -7,6 +7,7 @@ import kotlinx.android.synthetic.main.activity_main.*
 import android.provider.MediaStore
 import android.content.Intent
 import android.graphics.Bitmap
+import android.net.Uri
 import android.os.Environment
 import holgus103.visualsudokusolver.db.SudokuEntriesAdapter
 import android.os.Environment.DIRECTORY_PICTURES
@@ -14,12 +15,13 @@ import java.io.File
 import java.io.IOException
 import java.text.SimpleDateFormat
 import android.support.v4.content.FileProvider
+import android.util.Log
 import java.util.*
 
 
 class MainActivity : SudokuBaseActivity() {
 
-    var photoPath: String = "";
+    var image: File? = null;
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -49,15 +51,15 @@ class MainActivity : SudokuBaseActivity() {
         val timeStamp = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
         val imageFileName = "JPEG_" + timeStamp + "_"
         val storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES)
-        val image = File.createTempFile(
+        val p = File.createTempFile(
                 imageFileName, /* prefix */
                 ".jpg", /* suffix */
                 storageDir      /* directory */
         )
 
         // Save a file: path for use with ACTION_VIEW intents
-        this.photoPath = image.getAbsolutePath();
-        return image
+//        this.photoPath = image.getAbsolutePath();
+        return p
     }
 
     fun recognize(v: View) {
@@ -66,14 +68,13 @@ class MainActivity : SudokuBaseActivity() {
         if (takePictureIntent.resolveActivity(packageManager) != null) {
             try {
                 file = this.createImageFile();
+                image = file
             } catch (err: IOException) {
-                //TODO: error handling
+                Log.d("EXCEPTION", err.message)
             }
 
-            if (file != null) {
-                val photoURI = FileProvider.getUriForFile(this,
-                        "holgus103.visualsudokusolver.fileprovider",
-                        file)
+            if (image != null) {
+                val photoURI = Uri.fromFile(image)
                 takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
                 startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE)
             }
@@ -87,11 +88,16 @@ class MainActivity : SudokuBaseActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
+            if(image == null){
+                Log.d("ERROR", "Image file empty!")
+                return
+            };
             val i = Intent(this, SudokuEditActivity::class.java);
-            val file = File(this.photoPath);
+            val b = image?.readBytes();
+//            val file = File(this.photoPath);
             // TODO: pass Bitmap somehow
-            this.rawSudoku = this.runRecognition(this.photoPath);
-            file.delete();
+            this.rawSudoku = this.runRecognition(image!!.absolutePath);
+            image?.delete();
             i.putExtra(getString(R.string.sudoku), this.rawSudoku);
             this.startActivity(i)
         }

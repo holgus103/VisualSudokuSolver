@@ -20,7 +20,8 @@ Sudoku::~Sudoku() {
 }
 
 Sudoku::Sudoku(){
-
+    this->sudoku = NULL;
+    this->result = NULL;
 }
 
 int* Sudoku::getResult()
@@ -118,6 +119,7 @@ bool Sudoku::checkConstraints(int elNum, int val = 0)
 
 Sudoku::Sudoku(int* sudoku)
 {
+    this->result = NULL;
     this->sudoku = sudoku;
     this->isValid = this->IsValid(this->sudoku);
 }

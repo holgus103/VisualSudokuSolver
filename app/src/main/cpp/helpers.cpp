@@ -55,7 +55,7 @@ void extractDigitImages(std::string name, std::vector<Mat>& digits, std::vector<
         }
     }
     // load image
-    auto image = imread(name + ".jpg", 0);
+    auto image = imread(name, 0);
 //    show(image);
     // create empty image
     auto box = Mat(image.size(), CV_8UC1);
@@ -80,12 +80,11 @@ void extractDigitImages(std::string name, std::vector<Mat>& digits, std::vector<
     // simplify contour
     approxPolyDP(contours[0], curve, 0.1*arcLength(contours[0], true), true);
     c.push_back(curve);
-    drawContours(box, c, 0, Scalar(255), CV_FILLED);
+//    drawContours(box, c, 0, Scalar(255), CV_FILLED);
 
 //    Mat t;
 //    cv::resize(box, t, cv::Size(image.cols * 0.2,image.rows * 0.2));
 //    show(t);
-//    return;
 
     auto persp = Mat(Size(TARGET_SQUARE_SIZE*SUDOKU_SIZE, TARGET_SQUARE_SIZE*SUDOKU_SIZE), CV_8UC1);
     Point2f dstPoints[] = {
@@ -107,7 +106,7 @@ void extractDigitImages(std::string name, std::vector<Mat>& digits, std::vector<
         for(auto j = 0; j < SUDOKU_SIZE; j++){
 
 #ifdef DISPLAY_PROGRESS
-            show(persp(Rect(j*TARGET_SQUARE_SIZE, i*TARGET_SQUARE_SIZE, TARGET_SQUARE_SIZE, TARGET_SQUARE_SIZE)));
+             show(persp(Rect(j*TARGET_SQUARE_SIZE, i*TARGET_SQUARE_SIZE, TARGET_SQUARE_SIZE, TARGET_SQUARE_SIZE)));
 #endif
             auto digit = persp(Rect(j*TARGET_SQUARE_SIZE, i*TARGET_SQUARE_SIZE, TARGET_SQUARE_SIZE, TARGET_SQUARE_SIZE));
             auto output = Mat(TARGET_SQUARE_SIZE, TARGET_SQUARE_SIZE, CV_32FC1);

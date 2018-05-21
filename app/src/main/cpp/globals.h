@@ -8,7 +8,7 @@
 #ifndef GLOBALS_H
 #define GLOBALS_H
 
-#define NEIGHBOURS_COUNT 10
+#define NEIGHBOURS_COUNT 6
 #define MSB 2049
 #define MAGIC_NUMBER 2051
 #define TARGET_SQUARE_SIZE 28
