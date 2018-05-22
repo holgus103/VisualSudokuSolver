@@ -11,10 +11,10 @@ set(CMAKE_VERBOSE_MAKEFILE on)
 add_library(lib_opencv SHARED IMPORTED)
 
 set_target_properties(lib_opencv PROPERTIES IMPORTED_LOCATION
-/home/holgus103/OpenCV-3.0.0-android-sdk/OpenCV-android-sdk/sdk/native/libs/${ANDROID_ABI}/libopencv_java3.so)
+/home/holgus103/opencv-3.4.1-android-sdk/OpenCV-android-sdk/sdk/native/libs/${ANDROID_ABI}/libopencv_java3.so)
 
 
-include_directories(/home/holgus103/OpenCV-3.0.0-android-sdk/OpenCV-android-sdk/sdk/native/jni/include)
+include_directories(/home/holgus103/opencv-3.4.1-android-sdk/OpenCV-android-sdk/sdk/native/jni/include)
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=gnu++11")
 
@@ -56,7 +56,7 @@ find_library( # Sets the name of the path variable.
 
 target_link_libraries( # Specifies the target library.
                        native-lib
-                    lib_opencv
+                       lib_opencv
                        # Links the target library to the log library
                        # included in the NDK.
                        ${log-lib} )

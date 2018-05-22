@@ -16,12 +16,15 @@ import java.io.IOException
 import java.text.SimpleDateFormat
 import android.support.v4.content.FileProvider
 import android.util.Log
+import android.widget.Toast
+import holgus103.visualsudokusolver.threading.RecognitionRunner
+import java.net.URI
 import java.util.*
 
 
 class MainActivity : SudokuBaseActivity() {
 
-    var image: File? = null;
+    var imagePath: String? = null;
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -46,38 +49,40 @@ class MainActivity : SudokuBaseActivity() {
     }
 
     @Throws(IOException::class)
-    private fun createImageFile(): File {
+    private fun createImageFile() : Uri? {
         // Create an image file name
         val timeStamp = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
         val imageFileName = "JPEG_" + timeStamp + "_"
         val storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES)
-        val p = File.createTempFile(
-                imageFileName, /* prefix */
-                ".jpg", /* suffix */
-                storageDir      /* directory */
-        )
-
-        // Save a file: path for use with ACTION_VIEW intents
-//        this.photoPath = image.getAbsolutePath();
-        return p
+        try {
+            val p = File.createTempFile(
+                    imageFileName, /* prefix */
+                    ".jpg", /* suffix */
+                    storageDir      /* directory */
+            )
+            this.imagePath = p.absolutePath;
+            val uri =  Uri.fromFile(p);
+            p.delete();
+            return uri;
+        }
+        catch(e : Exception) {
+            Log.e("EXCEPTION", "Can't create file to take picture!");
+            Toast.makeText(this, "Please check SD card! Image shot is impossible!", Toast.LENGTH_LONG).show();
+            return null;
+        }
     }
 
     fun recognize(v: View) {
         val takePictureIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-        var file: File? = null;
         if (takePictureIntent.resolveActivity(packageManager) != null) {
-            try {
-                file = this.createImageFile();
-                image = file
-            } catch (err: IOException) {
-                Log.d("EXCEPTION", err.message)
+            val uri = this.createImageFile();
+            if(uri == null) {
+                Log.e("ERROR", "Couldn't create file!")
+                Toast.makeText(this, "Could not create file", Toast.LENGTH_LONG).show();
+                return;
             }
-
-            if (image != null) {
-                val photoURI = Uri.fromFile(image)
-                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
-                startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE)
-            }
+            takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
+            startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE)
         }
     }
 
@@ -88,18 +93,8 @@ class MainActivity : SudokuBaseActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
-            if(image == null){
-                Log.d("ERROR", "Image file empty!")
-                return
-            };
-            val i = Intent(this, SudokuEditActivity::class.java);
-            val b = image?.readBytes();
-//            val file = File(this.photoPath);
-            // TODO: pass Bitmap somehow
-            this.rawSudoku = this.runRecognition(image!!.absolutePath);
-            image?.delete();
-            i.putExtra(getString(R.string.sudoku), this.rawSudoku);
-            this.startActivity(i)
+            this.contentResolver.notifyChange(Uri.parse(this.imagePath), null);
+            RecognitionRunner().execute(this)
         }
     }
 

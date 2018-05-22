@@ -5,6 +5,7 @@
 
 #include <opencv2/highgui/highgui.hpp>
 #include <opencv2/core.hpp>
+#include <opencv2/imgcodecs.hpp>
 #include <opencv2/imgproc/imgproc.hpp>
 #include <vector>
 #include <algorithm>
@@ -21,6 +22,6 @@ void swap(std::vector<cv::Point>& v, int src, int dst);
 void sortPoints(std::vector<cv::Point>& v);
 void show(cv::Mat v);
 bool areaCompare(std::vector<cv::Point> a, std::vector<cv::Point> b);
-void extractDigitImages(std::string name, std::vector<cv::Mat>& digits, std::vector<int>& labels, bool extractLabels);
+void extractDigitImages(std::string name, std::vector<cv::Mat>& digits);
 
 #endif //VISUALSUDOKUSOLVER_HELPERS_H

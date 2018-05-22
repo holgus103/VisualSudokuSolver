@@ -26,9 +26,8 @@ JNICALL Java_holgus103_visualsudokusolver_MainActivity_runRecognition(JNIEnv *en
     auto p = std::string(cstr);
 //    std::string p = "/storage/extSdCard/sudoku_20a.jpg";
     std::vector<cv::Mat> digits = std::vector<cv::Mat>();
-    std::vector<int> labels = std::vector<int>();
 
-    extractDigitImages(p, digits, labels, false);
+    extractDigitImages(p, digits);
     auto d = DigitRecognizer(CLASSIFIER_PATH);
 
     int array[SUDOKU_SIZE * SUDOKU_SIZE];

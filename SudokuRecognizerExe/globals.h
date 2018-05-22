@@ -16,7 +16,7 @@
 #define SUDOKU_SIZE 9
 #define DEBUG
 #define LOG_RESULTS
-//#define DISPLAY_PROGRESS
+#define DISPLAY_PROGRESS
 // #define WORKING_SAMPLE
 // #define DRAW_CORNERS
 
