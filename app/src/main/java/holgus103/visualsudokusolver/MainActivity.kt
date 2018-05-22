@@ -93,25 +93,10 @@ class MainActivity : SudokuBaseActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
+            setContentView(R.layout.loading)
             this.contentResolver.notifyChange(Uri.parse(this.imagePath), null);
             RecognitionRunner().execute(this)
         }
     }
 
-    /**
-     * A native method that is implemented by the 'native-lib' native library,
-     * which is packaged with this application.
-     */
-    external fun runRecognition(path: String): IntArray
-
-    companion object {
-
-        const val REQUEST_IMAGE_CAPTURE = 1
-
-        // Used to load the 'native-lib' library on application startup.
-        init {
-            System.load("/data/app/org.opencv.engine-1/lib/arm/libopencv_java3.so")
-            System.loadLibrary("native-lib")
-        }
-    }
 }

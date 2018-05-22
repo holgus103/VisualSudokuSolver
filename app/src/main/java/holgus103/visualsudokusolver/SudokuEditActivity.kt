@@ -1,7 +1,6 @@
 package holgus103.visualsudokusolver
 
 import android.content.Intent
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 
@@ -30,10 +29,16 @@ class SudokuEditActivity : SudokuGridActivityBase() {
         this.parseGrid();
         val i = Intent(this, SolvedActivity::class.java)
         val unsolved = this.rawSudoku.clone();
-        this.rawSudoku = this.solve(this.rawSudoku);
-        i.putExtra(getString(R.string.sudoku), this.rawSudoku);
-        i.putExtra(getString(R.string.raw_sudoku), unsolved)
-        this.startActivity(i);
+        val checked = this.checkSudoku(this.rawSudoku);
+        if(checked.all{v -> v}) {
+            this.rawSudoku = this.solve(this.rawSudoku);
+            i.putExtra(getString(R.string.sudoku), this.rawSudoku);
+            i.putExtra(getString(R.string.raw_sudoku), unsolved)
+            this.startActivity(i);
+        }
+        else{
+            this.processFailedGridReview(checked, R.string.grid_error_msg)
+        }
     }
 
 }

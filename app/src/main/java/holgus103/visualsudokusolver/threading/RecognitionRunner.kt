@@ -10,6 +10,8 @@ import holgus103.visualsudokusolver.SudokuEditActivity
 import java.io.File
 
 class RecognitionRunner : AsyncTask<MainActivity, Void, MainActivity?>() {
+
+
     override fun doInBackground(vararg params: MainActivity?): MainActivity? {
         val activity = params[0];
 //            val file = File(this.photoPath);

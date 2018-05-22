@@ -3,12 +3,8 @@ package holgus103.visualsudokusolver
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
-import android.text.InputType
 import android.view.View
-import android.view.ViewGroup
-import android.widget.EditText
 import android.widget.Toast
-import kotlinx.android.synthetic.main.sudoku.*
 
 class SolveByHand : SudokuReadyGridActivity() {
 
@@ -53,30 +49,13 @@ class SolveByHand : SudokuReadyGridActivity() {
                     .show();
             // sudoku is ok
         };
-        else{
-
-            forEachField({cell, i, j, current ->
-                if(!checked[i*9+j]) {
-                    cell.setTextColor(Color.RED)
-                    cell.setOnFocusChangeListener({ v, hasFocus  ->
-                        cell.setTextColor(Color.BLACK);
-                        v.setOnFocusChangeListener(null);
-                    })
-                }
-            })
-
-            Toast
-                    .makeText(this, getString(R.string.fail_message), Toast.LENGTH_SHORT)
-                    .show();
-            // sudoku not ok
+        else {
+            this.processFailedGridReview(checked, R.string.fail_message);
         }
-        // TODO: display message + mark faulty digits(?)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_solve_by_hand)
     }
-
-    external fun checkSudoku(sudoku: IntArray) : BooleanArray
 }

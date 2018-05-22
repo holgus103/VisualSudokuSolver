@@ -13,4 +13,5 @@
     <string name="original_sudoku">Original unsolved sudoku</string>
     <string name="msg_export_successful">Exported successfully!</string>
     <string name="entry_id">ENTRY_ID</string>
+    <string name="grid_error_msg">Something seems to be wrong! Please review the puzzle</string>
 </resources>

@@ -1,16 +1,17 @@
 package holgus103.visualsudokusolver
 
+import android.graphics.Color
 import android.os.Bundle
 import android.text.SpannableStringBuilder
 import android.view.ViewGroup
 import android.widget.EditText
+import android.widget.Toast
 import kotlinx.android.synthetic.main.sudoku.*
 
 abstract class SudokuGridActivityBase : SudokuBaseActivity() {
 
     abstract fun prepareSudokuGrid();
 
-    external fun solve(sudoku: IntArray): IntArray
 
     fun forEachField(func : (EditText, Int, Int, Int) -> Unit){
 
@@ -78,5 +79,26 @@ abstract class SudokuGridActivityBase : SudokuBaseActivity() {
         this.fillGrid();
         this.prepareSudokuGrid();
     }
+
+    fun processFailedGridReview(checked: BooleanArray, failMsg : Int){
+
+
+            forEachField({cell, i, j, current ->
+                if(!checked[i*9+j]) {
+                    cell.setTextColor(Color.RED)
+                    cell.setOnFocusChangeListener({ v, hasFocus  ->
+                        cell.setTextColor(Color.BLACK);
+                        v.setOnFocusChangeListener(null);
+                    })
+                }
+            })
+
+            Toast
+                    .makeText(this, getString(failMsg), Toast.LENGTH_SHORT)
+                    .show();
+            // sudoku not ok
+    }
+
+
 
 }

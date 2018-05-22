@@ -6,7 +6,7 @@
 #define CLASSIFIER_PATH "/storage/extSdCard/knn.xml"
 extern "C" JNIEXPORT jintArray
 
-JNICALL Java_holgus103_visualsudokusolver_MainActivity_runRecognition(JNIEnv *env, jclass cls, jstring path)
+JNICALL Java_holgus103_visualsudokusolver_SudokuBaseActivity_runRecognition(JNIEnv *env, jclass cls, jstring path)
 {
 //    int array[] = {
 //            5,3,0, 0,7,0, 0,0,0,
@@ -43,7 +43,7 @@ JNICALL Java_holgus103_visualsudokusolver_MainActivity_runRecognition(JNIEnv *en
 
 extern "C" JNIEXPORT jintArray
 
-JNICALL Java_holgus103_visualsudokusolver_SudokuGridActivityBase_solve(JNIEnv * env, jclass cls, jintArray sudoku){
+JNICALL Java_holgus103_visualsudokusolver_SudokuBaseActivity_solve(JNIEnv * env, jclass cls, jintArray sudoku){
 
     auto res = env->NewIntArray(SUDOKU_SIZE*SUDOKU_SIZE);
 //    jboolean v = JNI_FALSE;
@@ -56,7 +56,7 @@ JNICALL Java_holgus103_visualsudokusolver_SudokuGridActivityBase_solve(JNIEnv * 
 
 extern "C" JNIEXPORT jbooleanArray
 
-JNICALL Java_holgus103_visualsudokusolver_SolveByHand_checkSudoku(JNIEnv * env, jclass cls, jintArray sudoku) {
+JNICALL Java_holgus103_visualsudokusolver_SudokuBaseActivity_checkSudoku(JNIEnv * env, jclass cls, jintArray sudoku) {
 
     auto res = env->NewBooleanArray(SUDOKU_SIZE*SUDOKU_SIZE);
     auto arr = env->GetIntArrayElements(sudoku, NULL);
