@@ -6,7 +6,7 @@
 #define CLASSIFIER_PATH "/storage/extSdCard/knn.xml"
 extern "C" JNIEXPORT jintArray
 
-JNICALL Java_holgus103_visualsudokusolver_SudokuBaseActivity_runRecognition(JNIEnv *env, jclass cls, jstring path)
+JNICALL Java_holgus103_visualsudokusolver_SudokuBaseActivity_runRecognition(JNIEnv *env, jclass cls, jstring path, jstring model)
 {
 //    int array[] = {
 //            5,3,0, 0,7,0, 0,0,0,
@@ -23,6 +23,7 @@ JNICALL Java_holgus103_visualsudokusolver_SudokuBaseActivity_runRecognition(JNIE
 //    };
 
     const char *cstr = env->GetStringUTFChars(path, NULL);
+    const char *cmodel = env->GetStringUTFChars(model, NULL);
     auto p = std::string(cstr);
 //    std::string p = "/storage/extSdCard/sudoku_20a.jpg";
     std::vector<cv::Mat> digits = std::vector<cv::Mat>();

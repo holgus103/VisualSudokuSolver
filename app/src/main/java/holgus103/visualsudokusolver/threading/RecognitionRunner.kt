@@ -21,7 +21,7 @@ class RecognitionRunner : AsyncTask<MainActivity, Void, MainActivity?>() {
             return null;
         }
         Log.d("INFO", "Loading from: " + activity.imagePath)
-        activity.rawSudoku = activity.runRecognition(activity.imagePath!!);
+        activity.rawSudoku = activity.runRecognitionSafe(activity.imagePath!!);
         f.delete();
         return activity;
 
@@ -34,6 +34,7 @@ class RecognitionRunner : AsyncTask<MainActivity, Void, MainActivity?>() {
         }
         val i = Intent(activity, SudokuEditActivity::class.java);
         i.putExtra(activity!!.getString(R.string.sudoku), activity!!.rawSudoku);
+        activity.leftActivity = true
         activity!!.startActivity(i)
     }
 }

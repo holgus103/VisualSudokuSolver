@@ -24,18 +24,30 @@ import java.util.*
 
 class MainActivity : SudokuBaseActivity() {
 
+    override fun onResume() {
+        super.onResume()
+        if(this.leftActivity){
+            setContentView(R.layout.activity_main);
+            this.setUpAdapter()
+        }
+    }
+    var leftActivity: Boolean = false;
     var imagePath: String? = null;
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        this.leftActivity = false;
+        this.setUpAdapter();
+        // Example of a call to a native method
+//        sample_text.text = stringFromJNI()
+    }
 
+    fun setUpAdapter(){
         entries.adapter = SudokuEntriesAdapter(
                 this,
                 SudokuApp.instance.dao.getAllOrdered(),
                 0,
                 {id -> openHistoricEntry(id)})
-        // Example of a call to a native method
-//        sample_text.text = stringFromJNI()
     }
 
     fun openHistoricEntry(id : Int?) {
@@ -94,6 +106,7 @@ class MainActivity : SudokuBaseActivity() {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
             setContentView(R.layout.loading)
+            this.leftActivity = false;
             this.contentResolver.notifyChange(Uri.parse(this.imagePath), null);
             RecognitionRunner().execute(this)
         }
