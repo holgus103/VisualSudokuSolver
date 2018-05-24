@@ -1,17 +1,36 @@
 package holgus103.visualsudokusolver
 
 import android.content.ContextWrapper
+import android.os.Bundle
 import android.os.Environment
 import android.support.v7.app.AppCompatActivity
 import android.os.Environment.getExternalStorageDirectory
 import android.util.Log
+import org.opencv.android.InstallCallbackInterface
+import org.opencv.android.LoaderCallbackInterface
 import java.io.File
 import java.io.FileNotFoundException
 import java.io.FileOutputStream
 import java.io.IOException
+import org.opencv.android.OpenCVLoader;
+import org.opencv.android.OpenCVLoader.initAsync
 
 
-abstract class SudokuBaseActivity : AppCompatActivity() {
+abstract class SudokuBaseActivity : AppCompatActivity(), LoaderCallbackInterface {
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        initAsync(OpenCVLoader.OPENCV_VERSION_3_4_0, this, this)
+//            System.load("/data/app/org.opencv.engine-1/lib/arm/libopencv_java3.so")
+    }
+
+    override fun onManagerConnected(status: Int) {
+        System.loadLibrary("native-lib")
+    }
+
+    override fun onPackageInstall(operation: Int, callback: InstallCallbackInterface?) {
+
+    }
 
     var rawSudoku : IntArray = IntArray(81);
 
@@ -66,10 +85,6 @@ abstract class SudokuBaseActivity : AppCompatActivity() {
         const val MODEL_PATH = "knn.xml";
 
         // Used to load the 'native-lib' library on application startup.
-        init {
-            System.load("/data/app/org.opencv.engine-1/lib/arm/libopencv_java3.so")
-            System.loadLibrary("native-lib")
-        }
     }
 
 }
