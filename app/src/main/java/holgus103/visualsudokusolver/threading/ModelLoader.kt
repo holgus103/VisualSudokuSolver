@@ -99,14 +99,16 @@ class ModelLoader(ctx: MainActivity, bar: ProgressBar) : AsyncTask<String, Int, 
         // if we get here, length is known, now set indeterminate to false
         bar.isIndeterminate = false
         bar.max = 100
-        val p = values[0] ?: return;
+        val p = values[0];
+        if(p == null){
+            return;
+        }
         bar.progress = p;
     }
 
-    protected fun onPostExecute(result: String?) {
-        mWakeLock.release()
+    override fun onPostExecute(result: Boolean?) {
+        super.onPostExecute(result)
         ctx.restoreInterface();
     }
-
 
 }

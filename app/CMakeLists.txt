@@ -11,10 +11,10 @@ set(CMAKE_VERBOSE_MAKEFILE on)
 add_library(lib_opencv SHARED IMPORTED)
 
 set_target_properties(lib_opencv PROPERTIES IMPORTED_LOCATION
-/home/holgus103/opencv-3.4.1-android-sdk/OpenCV-android-sdk/sdk/native/libs/${ANDROID_ABI}/libopencv_java3.so)
+G:/lib/OpenCV-android-sdk/sdk/native/libs/${ANDROID_ABI}/libopencv_java3.so)
 
 
-include_directories(/home/holgus103/opencv-3.4.1-android-sdk/OpenCV-android-sdk/sdk/native/jni/include)
+include_directories(G:/lib/OpenCV-android-sdk/sdk/native/jni/include)
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=gnu++11")
 
