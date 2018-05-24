@@ -14,4 +14,5 @@
     <string name="msg_export_successful">Exported successfully!</string>
     <string name="entry_id">ENTRY_ID</string>
     <string name="grid_error_msg">Something seems to be wrong! Please review the puzzle</string>
+    <string name="model_url">https://raw.githubusercontent.com/holgus103/VisualSudokuSolver/master/models/knn.xml</string>
 </resources>

@@ -17,6 +17,7 @@ import java.text.SimpleDateFormat
 import android.support.v4.content.FileProvider
 import android.util.Log
 import android.widget.Toast
+import holgus103.visualsudokusolver.threading.ModelLoader
 import holgus103.visualsudokusolver.threading.RecognitionRunner
 import java.net.URI
 import java.util.*
@@ -32,12 +33,30 @@ class MainActivity : SudokuBaseActivity() {
         }
     }
     var leftActivity: Boolean = false;
-    var imagePath: String? = null;
+
+    companion object {
+        var imagePath: String? = null;
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         this.leftActivity = false;
         this.setUpAdapter();
+
+        val storageDir = getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS);
+        try {
+            val p = File(storageDir.absolutePath + '/' + MODEL_PATH);
+            if(!p.exists()){
+                setContentView(R.layout.model_download)
+                ModelLoader(this, findViewById(R.id.determinateBar))
+                        .execute(getString(R.string.model_url), p.absolutePath)
+            }
+
+        }
+        catch(ex: Exception){
+            Log.e("EXCEPTION", ex.message)
+        }
         // Example of a call to a native method
 //        sample_text.text = stringFromJNI()
     }
@@ -72,7 +91,7 @@ class MainActivity : SudokuBaseActivity() {
                     ".jpg", /* suffix */
                     storageDir      /* directory */
             )
-            this.imagePath = p.absolutePath;
+            imagePath = p.absolutePath;
             val uri =  Uri.fromFile(p);
             p.delete();
             return uri;
@@ -105,11 +124,23 @@ class MainActivity : SudokuBaseActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
-            setContentView(R.layout.loading)
-            this.leftActivity = false;
-            this.contentResolver.notifyChange(Uri.parse(this.imagePath), null);
-            RecognitionRunner().execute(this)
+            if(imagePath == null){
+                Log.e("ERROR", "imagePath is null!");
+            }
+            this.finalizeRecognition();
+
         }
+    }
+
+    fun finalizeRecognition(){
+        setContentView(R.layout.loading)
+        this.leftActivity = false;
+        this.contentResolver.notifyChange(Uri.parse(imagePath), null);
+        RecognitionRunner().execute(this)
+    }
+
+    fun restoreInterface(){
+        setContentView(R.layout.activity_main);
     }
 
 }

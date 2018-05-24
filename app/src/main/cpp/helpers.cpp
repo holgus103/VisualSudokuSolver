@@ -45,9 +45,10 @@ bool areaCompare(std::vector<Point> a, std::vector<Point> b) {
     return contourArea(a) > contourArea(b);
 }
 
-void extractDigitImages(std::string name, std::vector<Mat>& digits){
+bool extractDigitImages(std::string name, std::vector<Mat>& digits){
     // load image
     auto image = imread(name, 0);
+    if(image.rows == 0 || image.cols == 0) return false;
 //    show(image);
     // create empty image
     auto box = Mat(image.size(), CV_8UC1);
@@ -64,6 +65,7 @@ void extractDigitImages(std::string name, std::vector<Mat>& digits){
     vector<vector<Point>> contours;
     // find contours
     cv::findContours(box, contours, RETR_LIST, CHAIN_APPROX_SIMPLE);
+    if(contours.size() == 0) return false;
     // get biggest contour
     std::sort(contours.begin(), contours.end(), areaCompare);
 
@@ -71,6 +73,7 @@ void extractDigitImages(std::string name, std::vector<Mat>& digits){
     vector<vector<Point>> c;
     // simplify contour
     approxPolyDP(contours[0], curve, 0.1*arcLength(contours[0], true), true);
+    if(curve.size() != 4) return false;
     c.push_back(curve);
 //    drawContours(box, c, 0, Scalar(255), CV_FILLED);
 
@@ -191,4 +194,5 @@ void extractDigitImages(std::string name, std::vector<Mat>& digits){
             digits.push_back(output);
         }
     }
+    return true;
 }

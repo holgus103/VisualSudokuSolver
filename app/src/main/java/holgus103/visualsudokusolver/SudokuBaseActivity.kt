@@ -20,13 +20,7 @@ abstract class SudokuBaseActivity : AppCompatActivity() {
      * which is packaged with this application.
      */
 
-    fun runRecognitionSafe(path: String): IntArray{
-        val dir = getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS);
-        if(!dir.listFiles().any { name -> name.name == MODEL_PATH } ){
-            copyFiletoExternalStorage(R.xml.knn, "knn", ".xml")
-        }
-        return runRecognition(path, dir.absolutePath);
-    }
+
 
     private fun copyFiletoExternalStorage(resourceId: Int, resourceName: String, suffix: String) {
         val storageDir = getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS);
