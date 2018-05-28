@@ -3,7 +3,6 @@
     android:layout_width="300dp"
     android:layout_height="300dp"
     android:id="@+id/sudoku_grid"
-    android:layout_marginTop="40dp"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_gravity="center"
     android:background="@color/tableBackground">

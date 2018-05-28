@@ -6,6 +6,7 @@ import android.os.AsyncTask
 import android.os.PowerManager
 import android.util.Log
 import android.widget.ProgressBar
+import android.widget.TextView
 import android.widget.Toast
 import holgus103.visualsudokusolver.MainActivity
 import holgus103.visualsudokusolver.R
@@ -17,10 +18,10 @@ import java.net.HttpURLConnection
 import java.net.URL
 
 
-class ModelLoader(ctx: MainActivity, bar: ProgressBar) : AsyncTask<String, Int, Boolean>() {
+class ModelLoader(ctx: MainActivity, progress: TextView) : AsyncTask<String, Long, Boolean>() {
 
     private val ctx = ctx
-    private val bar = bar
+    private val progress = progress
 
     override fun doInBackground(vararg params: String): Boolean {
         var input: InputStream? = null
@@ -59,9 +60,8 @@ class ModelLoader(ctx: MainActivity, bar: ProgressBar) : AsyncTask<String, Int, 
                 }
                 total += count.toLong()
                 // publishing the progress....
-                if (fileLength > 0)
                 // only if total length is known
-                    publishProgress((total * 100 / fileLength) as Int)
+                publishProgress(total)
                 output!!.write(data, 0, count)
                 count = input!!.read(data)
             }
@@ -94,16 +94,14 @@ class ModelLoader(ctx: MainActivity, bar: ProgressBar) : AsyncTask<String, Int, 
         mWakeLock.acquire()
     }
 
-    protected override fun onProgressUpdate(vararg values: Int?) {
+    protected override fun onProgressUpdate(vararg values: Long?) {
         super.onProgressUpdate(values[0])
         // if we get here, length is known, now set indeterminate to false
-        bar.isIndeterminate = false
-        bar.max = 100
         val p = values[0];
         if(p == null){
             return;
         }
-        bar.progress = p;
+        progress.text = p.toString() + " Bytes"
     }
 
     override fun onPostExecute(result: Boolean?) {

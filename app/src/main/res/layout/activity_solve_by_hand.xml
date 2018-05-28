@@ -6,9 +6,14 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".SolveByHand">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:layout_height="match_parent">
 
-    <include layout="@layout/sudoku"/>
-
+        <include layout="@layout/sudoku" />
+    </LinearLayout>
     <LinearLayout
         android:orientation="horizontal"
         android:layout_weight="5"
@@ -26,8 +31,9 @@
             android:layout_weight="1"
             android:layout_gravity="center"
             android:onClick="solve"
+            android:backgroundTint="@color/colorPrimary"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="70dp"
             app:srcCompat="@drawable/ic_create_white_24dp" />
 
 
@@ -41,7 +47,8 @@
             android:layout_weight="1"
             android:layout_gravity="center"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="70dp"
+            android:backgroundTint="@color/colorPrimary"
             android:onClick="check"
             app:srcCompat="@drawable/ic_check_white_24dp" />
 

@@ -49,7 +49,7 @@ class MainActivity : SudokuBaseActivity() {
             val p = File(storageDir.absolutePath + '/' + MODEL_PATH);
             if(!p.exists()){
                 setContentView(R.layout.model_download)
-                ModelLoader(this, findViewById(R.id.determinateBar))
+                ModelLoader(this, findViewById(R.id.downloaded))
                         .execute(getString(R.string.model_url), p.absolutePath)
             }
 

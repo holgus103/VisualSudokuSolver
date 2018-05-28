@@ -12,70 +12,78 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
-
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:gravity="center"
+            android:layout_height="match_parent" android:layout_weight="1">
         <include layout="@layout/sudoku"></include>
+        </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
+            android:layout_weight="5"
             android:layout_height="match_parent">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="1"></LinearLayout>
+                android:layout_weight="5"></LinearLayout>
 
             <ImageButton
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="70dp"
                 android:layout_gravity="center"
-                android:layout_weight="1"
+                android:layout_weight="4"
+                android:backgroundTint="@color/colorPrimary"
                 android:onClick="save"
-                app:srcCompat="@drawable/ic_save_white_24dp"
- />
+                app:srcCompat="@drawable/ic_save_white_24dp" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="1"></LinearLayout>
+                android:layout_weight="5"></LinearLayout>
 
             <ImageButton
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="70dp"
                 android:layout_gravity="center"
-                android:layout_weight="1"
+                android:layout_weight="4"
+                android:backgroundTint="@color/colorPrimary"
                 android:onClick="delete"
                 app:srcCompat="@drawable/ic_delete_white_24dp" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="1"></LinearLayout>
+                android:layout_weight="5"></LinearLayout>
 
             <ImageButton
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="70dp"
                 android:layout_gravity="center"
-                android:layout_weight="1"
+                android:layout_weight="4"
                 android:onClick="saveImage"
+                android:backgroundTint="@color/colorPrimary"
                 app:srcCompat="@drawable/ic_image_white_24dp" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="1"></LinearLayout>
+                android:layout_weight="5"></LinearLayout>
 
             <ImageButton
                 android:layout_width="match_parent"
-                android:onClick="solveManually"
-                android:layout_height="wrap_content"
+                android:layout_height="70dp"
                 android:layout_gravity="center"
-                android:layout_weight="1"
+                android:layout_weight="4"
+                android:backgroundTint="@color/colorPrimary"
+                android:onClick="solveManually"
                 app:srcCompat="@drawable/ic_create_white_24dp" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="1"></LinearLayout>
+                android:layout_weight="5"></LinearLayout>
 
         </LinearLayout>
     </LinearLayout>
