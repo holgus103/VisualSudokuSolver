@@ -33,7 +33,7 @@ class SudokuEditActivity : SudokuGridActivityBase() {
         this.unsolved = this.rawSudoku.clone();
         val checked = this.checkSudoku(this.rawSudoku);
         if(checked.all{v -> v}) {
-            SolverRunner(this).execute()
+            SolverRunner(this, this.unsolved).execute()
         }
         else{
             this.processFailedGridReview(checked, R.string.grid_error_msg)

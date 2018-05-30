@@ -5,6 +5,7 @@ import android.graphics.Color
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
+import holgus103.visualsudokusolver.threading.SolverRunner
 
 class SolveByHand : SudokuReadyGridActivity() {
 
@@ -22,10 +23,10 @@ class SolveByHand : SudokuReadyGridActivity() {
 
     fun solve(v: View){
         val i = Intent(this, SolvedActivity::class.java)
-        this.rawSudoku = solve(this.rawSudoku);
-        i.putExtra(getString(R.string.raw_sudoku), this.fixedPuzzleValues)
-        i.putExtra(getString(R.string.sudoku), this.rawSudoku);
-        startActivity(i);
+        SolverRunner(this, this.fixedPuzzleValues).execute()
+//        i.putExtra(getString(R.string.raw_sudoku), this.fixedPuzzleValues)
+//        i.putExtra(getString(R.string.sudoku), this.rawSudoku);
+//        startActivity(i);
     }
 
     fun check(v: View){

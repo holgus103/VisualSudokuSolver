@@ -37,7 +37,7 @@ class SolvedActivity : SudokuReadyGridActivity() {
         val autosave = m.getBoolean(getString(R.string.autosave_key), false);
         this.id = intent.getIntExtra(getString(R.string.entry_id), -1);
 
-        if(autosave){
+        if(autosave && this.id == -1){
             val sudoku = SudokuEntry(sudoku = this.rawSudoku)
             SudokuApp.instance.dao.add(sudoku);
         }
