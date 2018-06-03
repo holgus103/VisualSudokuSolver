@@ -17,7 +17,7 @@ data class SudokuEntry(
     @DatabaseField(dataType = DataType.SERIALIZABLE, columnName = SudokuDao.ORIGINAL_SUDOKU)
     var original: IntArray = IntArray(81),
 
-    @DatabaseField(columnName = SudokuDao.TIMESTAMP)
+    @DatabaseField(columnName = SudokuDao.TIMESTAMP, format = "yyyy-MM-dd HH:mm:ss")
     var timestamp: Date = Date()
 
 )

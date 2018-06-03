@@ -9,6 +9,7 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:textSize="25dp"
+        android:layout_marginTop="10dp"
         android:text="11-11-2018 23:34" />
 
 </LinearLayout>
