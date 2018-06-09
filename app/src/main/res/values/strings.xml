@@ -16,4 +16,11 @@
     <string name="grid_error_msg">Something seems to be wrong! Please review the puzzle</string>
     <string name="model_url">https://raw.githubusercontent.com/holgus103/VisualSudokuSolver/master/models/knn.xml</string>
     <string name="action_settings">Settings</string>
+    <string name="solve_manually">Solve manually</string>
+    <string name="solve">Solve</string>
+    <string name="check_solution">Check solution</string>
+    <string name="authority">holgus103.visualsudokusolver.fileprovider</string>
+    <string name="no_sd">Please check SD card! Image shot is impossible!</string>
+    <string name="no_file">Can\'t create file to take picture!</string>
+    <string name="file_not_created">Could not create file</string>
 </resources>

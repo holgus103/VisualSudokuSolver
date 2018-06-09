@@ -17,8 +17,12 @@ import java.io.File
 import java.util.*
 import android.content.ContentValues
 import android.content.DialogInterface
+import android.media.MediaScannerConnection
 import android.provider.MediaStore
+import android.support.v4.content.FileProvider
 import android.widget.Toast
+import android.media.MediaScannerConnection.scanFile
+import android.net.Uri
 
 
 class SolvedActivity : SudokuReadyGridActivity() {
@@ -162,7 +166,7 @@ class SolvedActivity : SudokuReadyGridActivity() {
                 stream.close()
 
                 val values = ContentValues()
-
+                val uri =  FileProvider.getUriForFile(this, "holgus103.visualsudokusolver.fileprovider", file);
                 values.put(MediaStore.Images.Media.DATE_TAKEN, System.currentTimeMillis());
                 values.put(MediaStore.Images.Media.MIME_TYPE, "image/jpeg");
                 values.put(MediaStore.MediaColumns.DATA, file.absolutePath);

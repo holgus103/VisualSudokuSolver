@@ -27,14 +27,15 @@
             android:layout_height="match_parent">
         </LinearLayout>
 
-        <ImageButton
-            android:layout_weight="1"
+        <Button
             android:layout_gravity="center"
             android:onClick="solve"
-            android:backgroundTint="@color/colorPrimary"
-            android:layout_width="match_parent"
-            android:layout_height="70dp"
-            app:srcCompat="@drawable/ic_create_white_24dp" />
+            android:backgroundTint="@color/cellBackground"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/solve"
+            android:textColor="@color/colorPrimary"
+            />
 
 
         <LinearLayout
@@ -43,14 +44,14 @@
             android:layout_height="match_parent">
         </LinearLayout>
 
-        <ImageButton
-            android:layout_weight="1"
+        <Button
             android:layout_gravity="center"
-            android:layout_width="match_parent"
-            android:layout_height="70dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:backgroundTint="@color/colorPrimary"
             android:onClick="check"
-            app:srcCompat="@drawable/ic_check_white_24dp" />
+            android:text="@string/check_solution"
+            android:textColor="@color/cellBackground" />
 
 
         <LinearLayout

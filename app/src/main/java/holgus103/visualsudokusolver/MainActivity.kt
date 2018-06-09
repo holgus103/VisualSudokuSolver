@@ -1,16 +1,20 @@
 package holgus103.visualsudokusolver
 
+import android.Manifest
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import kotlinx.android.synthetic.main.activity_main.*
 import android.provider.MediaStore
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Environment
 import holgus103.visualsudokusolver.db.SudokuEntriesAdapter
 import android.os.Environment.DIRECTORY_PICTURES
+import android.support.v4.app.ActivityCompat
+import android.support.v4.content.ContextCompat
 import java.io.File
 import java.io.IOException
 import java.text.SimpleDateFormat
@@ -43,6 +47,7 @@ class MainActivity : SudokuBaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        this.requestPermissions();
         this.leftActivity = false;
         this.setUpAdapter();
 
@@ -94,13 +99,13 @@ class MainActivity : SudokuBaseActivity() {
                     storageDir      /* directory */
             )
             imagePath = p.absolutePath;
-            val uri =  Uri.fromFile(p);
+            val uri =  FileProvider.getUriForFile(this, getString(R.string.authority), p);
             p.delete();
             return uri;
         }
         catch(e : Exception) {
-            Log.e("EXCEPTION", "Can't create file to take picture!");
-            Toast.makeText(this, "Please check SD card! Image shot is impossible!", Toast.LENGTH_LONG).show();
+            Log.e("EXCEPTION", getString(R.string.no_file));
+            Toast.makeText(this, getString(R.string.no_sd), Toast.LENGTH_LONG).show();
             return null;
         }
     }
@@ -111,7 +116,7 @@ class MainActivity : SudokuBaseActivity() {
             val uri = this.createImageFile();
             if(uri == null) {
                 Log.e("ERROR", "Couldn't create file!")
-                Toast.makeText(this, "Could not create file", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, getString(R.string.file_not_created), Toast.LENGTH_LONG).show();
                 return;
             }
             takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
@@ -137,7 +142,8 @@ class MainActivity : SudokuBaseActivity() {
     fun finalizeRecognition(){
         setContentView(R.layout.loading)
         this.leftActivity = false;
-        this.contentResolver.notifyChange(Uri.parse(imagePath), null);
+        val uri =  FileProvider.getUriForFile(this, getString(R.string.authority), File(imagePath));
+        this.contentResolver.notifyChange(uri, null);
         RecognitionRunner().execute(this)
     }
 
@@ -161,6 +167,27 @@ class MainActivity : SudokuBaseActivity() {
                 true;
             }
             else -> super.onOptionsItemSelected(item)
+        }
+    }
+
+    fun requestPermissions() {
+        val permissions = arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                Manifest.permission.READ_EXTERNAL_STORAGE,
+                Manifest.permission.WAKE_LOCK,
+                Manifest.permission.INTERNET);
+
+        for (v: String in permissions) {
+
+            if (ContextCompat.checkSelfPermission(this, v)
+                    != PackageManager.PERMISSION_GRANTED) {
+
+                ActivityCompat.requestPermissions(this, arrayOf(v),
+                        PERMISSION_GRANTED);
+
+                // MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE is an
+                // app-defined int constant
+
+            }
         }
     }
 

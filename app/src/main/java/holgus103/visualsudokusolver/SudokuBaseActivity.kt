@@ -83,6 +83,7 @@ abstract class SudokuBaseActivity : AppCompatActivity(), LoaderCallbackInterface
 
         const val REQUEST_IMAGE_CAPTURE = 1
         const val MODEL_PATH = "knn.xml";
+        const val PERMISSION_GRANTED = 1;
 
         // Used to load the 'native-lib' library on application startup.
     }
