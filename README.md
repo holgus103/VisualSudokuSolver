@@ -13,3 +13,9 @@ The app is aimed to recognize and solve sudoku puzzles. For now it's performance
 The apps front-end and most of its logic were implementing using Kotlin, yet more demanding tasks such as solving sudokus use the 
 advantages of Android's NDK and were therefore written in C++. For recognition a KNN model was created using OpenCV and a self-made 
 dataset. OpenCV was also used for preprocessing the image.
+
+## Before running
+
+Please make sure you install [OpenCv Manager](https://play.google.com/store/apps/details?id=org.opencv.engine) before running the app.
+
+
