@@ -55,6 +55,7 @@ JNICALL Java_holgus103_visualsudokusolver_SudokuBaseActivity_solve(JNIEnv * env,
     auto puzzle = Sudoku(arr);
     int* solution = puzzle.Solve();
     env->SetIntArrayRegion(res, 0, 81, solution);
+    delete solution;
     return res;
 }
 

@@ -17,6 +17,8 @@
 
 
 Sudoku::~Sudoku() {
+//    if(this->sudoku != NULL)
+//        delete this->sudoku;
 }
 
 Sudoku::Sudoku(){

@@ -10,11 +10,16 @@
     <style name="SudokuCell">
         <item name="android:background">@color/cellBackground</item>
         <item name="android:layout_margin">2dip</item>
-        <item name="android:layout_height">fill_parent</item>
+        <item name="android:maxHeight">33dp</item>
+        <item name="android:maxWidth">33dp</item>
+        <item name="android:minHeight">33dp</item>
+        <item name="android:minWidth">33dp</item>
+        <item name="android:layout_height">match_parent</item>
         <item name="android:layout_weight">1</item>
         <item name="android:layout_width">match_parent</item>
         <item name="android:textAlignment">center</item>
         <item name="android:textSize">15dp</item>
+
     </style>
 
     <style name="AppTheme.NoActionBar">

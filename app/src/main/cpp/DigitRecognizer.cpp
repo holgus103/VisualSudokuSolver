@@ -17,7 +17,7 @@ DigitRecognizer::DigitRecognizer(std::string path){
 
 
 DigitRecognizer::~DigitRecognizer() {
-    delete this->knn;
+//    delete this->knn;
 }
 
 void DigitRecognizer::saveClassifier(std::string path){

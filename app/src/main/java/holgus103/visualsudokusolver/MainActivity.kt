@@ -54,7 +54,7 @@ class MainActivity : SudokuBaseActivity() {
         val storageDir = getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS);
         try {
             val p = File(storageDir.absolutePath + '/' + MODEL_PATH);
-            if(!p.exists()){
+            if(!p.exists() || p.length() == (0 as Long)){
                 setContentView(R.layout.model_download)
                 ModelLoader(this, findViewById(R.id.downloaded))
                         .execute(getString(R.string.model_url), p.absolutePath)

@@ -16,7 +16,6 @@ class RecognitionRunner : AsyncTask<MainActivity, Void, MainActivity?>() {
 
     override fun doInBackground(vararg params: MainActivity?): MainActivity? {
         val activity = params[0];
-//            val file = File(this.photoPath);
         val f = File(MainActivity.imagePath);
         if(!f.exists()){
             Log.e("ERROR", "File not found");
@@ -24,7 +23,10 @@ class RecognitionRunner : AsyncTask<MainActivity, Void, MainActivity?>() {
         }
         Log.d("INFO", "Loading from: " + MainActivity.imagePath)
         val storageDir = activity!!.getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS)
-        activity!!.rawSudoku = activity!!.runRecognition(MainActivity.imagePath!!,
+        // TEST PATH FOR EMULATOR USE
+//        val path = "/sdcard/Download/20180518_040815.jpg";
+        val path = MainActivity.imagePath!!;
+        activity!!.rawSudoku = activity!!.runRecognition(path,
                 storageDir.absolutePath + '/' + SudokuBaseActivity.MODEL_PATH);
         f.delete();
         return activity;
